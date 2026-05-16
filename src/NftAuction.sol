@@ -20,17 +20,19 @@ contract MyNFT is ERC721URIStorage {
 
 // 拍卖的状态
 enum AuctionState {
-    Success,
-    Fail,
-    Cancel
+    Normal, // 正常。
+    Success, // 竞拍成功。
+    Fail, // 竞拍失败。
+    Cancel // 取消了。
 }
 // 拍卖的信息
 struct AuctionData {
     uint256 tokenId; // 币
     uint256 auctionId; // 拍卖
+    address creator; // 创建者
     uint256 minPrice; // 起拍价
     uint256 beginTime; // 开始时间
-    uint256 periodTime; // 持续时间
+    uint256 endTime; // 结束时间
     AuctionState state; // 状态。
     address bidder; // 出价者。
     uint256 bidPrice; // 出价的金额。
@@ -52,7 +54,7 @@ contract Auction {
         uint256 auctionId,
         uint256 minPrice,
         uint256 beginTime,
-        uint256 periodTime
+        uint256 endTime
     );
     // 退款。
     event AuctionRefund(
@@ -68,6 +70,17 @@ contract Auction {
         address bidder, // 竞拍人。
         uint256 bidPrice // 竞拍金额
     );
+    // 取消。
+    event AuctionCancel(
+        uint256 tokenId, // 用Go取日志。这里还需要索引吗？
+        uint256 auctionId
+    );
+    // 结束。
+    event AuctionEnd(
+        uint256 tokenId, // 用Go取日志。这里还需要索引吗？
+        uint256 auctionId,
+        AuctionState state // 状态。
+    );
 
     constructor() {
         myNFT = new MyNFT();
@@ -76,7 +89,14 @@ contract Auction {
     // owner校验。
     modifier needTokenOwner(uint256 tokenId) {
         address owner = myNFT.ownerOf(tokenId);
-        require(msg.sender == owner, "not owner");
+        require(msg.sender == owner, "not token owner");
+        _;
+    }
+    // owner校验。
+    modifier needAuctionOwner(uint256 auctionId) {
+        require(auctionId > 0, "auctionId is invalid");
+        AuctionData storage auctionData = auctionMap[auctionId];
+        require(auctionData.creator == msg.sender, "not auction owner");
         _;
     }
 
@@ -96,13 +116,18 @@ contract Auction {
         _auctionId++;
         uint256 auctionId = _auctionId;
 
+        // 结束时间。
+        uint256 endTime = beginTime + periodTime;
+
         // 拍卖信息。
         AuctionData storage auctionData = auctionMap[auctionId];
         auctionData.tokenId = tokenId;
         auctionData.auctionId = auctionId;
+        auctionData.creator = msg.sender;
         auctionData.minPrice = minPrice;
         auctionData.beginTime = beginTime;
-        auctionData.periodTime = periodTime;
+        auctionData.endTime = endTime;
+        auctionData.state = AuctionState.Normal;
 
         // 事件。
         emit AuctionCreate(
@@ -111,7 +136,7 @@ contract Auction {
             auctionId,
             minPrice,
             beginTime,
-            periodTime
+            endTime
         );
     }
 
@@ -122,15 +147,23 @@ contract Auction {
         AuctionData storage auctionData = auctionMap[auctionId];
         require(auctionData.beginTime > 0, "auction not found");
         // 判断时间
-        require(block.timestamp > auctionData.beginTime, "not begin");
+        require(block.timestamp > auctionData.beginTime, "time not begin");
+        require(auctionData.endTime > block.timestamp, "time is end");
         require(
-            auctionData.beginTime + auctionData.periodTime > block.timestamp,
-            "auction expire"
+            auctionData.state == AuctionState.Normal,
+            "state is not Normal"
         );
         // 不能重复。
         require(auctionData.bidder == msg.sender, "bid repeated");
         // 金额必须够
-        require(amount > auctionData.bidPrice, "amount is small");
+        require(
+            amount > auctionData.minPrice,
+            "amount is smaller than minPrice"
+        );
+        require(
+            amount > auctionData.bidPrice,
+            "amount is smaller than bidPrice"
+        );
 
         uint256 tokenId = auctionData.tokenId;
 
@@ -154,5 +187,55 @@ contract Auction {
 
         // 事件。
         emit AuctionBid(tokenId, auctionId, msg.sender, amount);
+    }
+
+    // 取消。
+    function cancelAuction(
+        uint256 auctionId
+    ) public needAuctionOwner(auctionId) {
+        AuctionData storage auctionData = auctionMap[auctionId];
+        // 未开始的，才能取消。
+        require(auctionData.beginTime <= block.timestamp, "auction is begin");
+
+        // 修改状态。
+        auctionData.state = AuctionState.Cancel; // 取消。
+
+        // 事件。
+        emit AuctionCancel(auctionData.tokenId, auctionId);
+    }
+
+    // 结束。
+    function endAuction(uint256 auctionId) public needAuctionOwner(auctionId) {
+        AuctionData storage auctionData = auctionMap[auctionId];
+        // 时间完结，才能结束。
+        require(auctionData.endTime > block.timestamp, "auction is end");
+        require(
+            auctionData.state == AuctionState.Normal,
+            "state is not Normal"
+        );
+
+        uint256 tokenId = auctionData.tokenId;
+        address creator = auctionData.creator;
+        address bidder = auctionData.bidder;
+        uint256 bidPrice = auctionData.bidPrice;
+
+        // 有人出价。
+        if (auctionData.bidder > address(0) && auctionData.bidPrice > 0) {
+            // 把钱给 creator
+            (bool ok, ) = payable(creator).call{value: bidPrice}("");
+            require(ok, "transfer money error");
+
+            // 把token给 bidder
+            myNFT.transferFrom(creator, bidder, tokenId);
+
+            // 竞拍成功了。
+            auctionData.state = AuctionState.Success;
+        } else {
+            // 竞拍失败了。
+            auctionData.state = AuctionState.Fail;
+        }
+
+        // 事件。
+        emit AuctionEnd(auctionData.tokenId, auctionId, auctionData.state);
     }
 }
