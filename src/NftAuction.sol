@@ -38,7 +38,8 @@ struct AuctionData {
     uint256 bidPrice; // 出价的金额。
 }
 
-contract Auction {
+// 拍卖合约。
+contract AuctionContract {
     MyNFT myNFT; // 管理token。
     uint256 _auctionId = 0; // 序号
 
