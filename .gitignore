@@ -17,6 +17,10 @@ states/
 .github/
 lib/
 lib
+node_modules/
 
+cache/
+out/
+bin/
 
-
+docs/
