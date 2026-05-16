@@ -1,0 +1,12 @@
+
+前端需要知道的地址：
+├── NFT 合约地址 (0x123...)
+│   └── 调用: approve(拍卖合约, tokenId)
+│
+└── 拍卖合约代理地址 (0x456...)
+    ├── createAuction(tokenId, startingPrice, duration)
+    ├── bidAuction(auctionId)
+    ├── endAuction(auctionId)
+    └── cancelAuction(auctionId)
+
+

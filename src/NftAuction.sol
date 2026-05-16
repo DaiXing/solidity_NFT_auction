@@ -4,7 +4,8 @@ pragma solidity ^0.8.13;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-contract MyNFT is ERC721URIStorage {
+// 简单的NFT。测试用。
+contract MySimpleNFT is ERC721URIStorage {
     uint256 _tokenId = 0; // id
     constructor() ERC721("MyNFT", "MyNFT") {}
 
@@ -27,7 +28,8 @@ enum AuctionState {
 }
 // 拍卖的信息
 struct AuctionData {
-    uint256 tokenId; // 币
+    address nftContract; // token合约地址
+    uint256 tokenId; // token
     uint256 auctionId; // 拍卖
     address creator; // 创建者
     uint256 minPrice; // 起拍价
@@ -40,10 +42,9 @@ struct AuctionData {
 
 // 拍卖合约。
 contract AuctionContract {
-    MyNFT myNFT; // 管理token。
     uint256 _auctionId = 0; // 序号
 
-    // key1=用户  key2=tokenID value=auctionID
+    // key1=NFT合约地址  key2=tokenID value=auctionID
     mapping(address => mapping(uint256 => uint256)) tokenAuctionMap;
     // key=auctionID
     mapping(uint256 => AuctionData) auctionMap;
@@ -83,13 +84,11 @@ contract AuctionContract {
         AuctionState state // 状态。
     );
 
-    constructor() {
-        myNFT = new MyNFT();
-    }
+    constructor() {}
 
     // owner校验。
-    modifier needTokenOwner(uint256 tokenId) {
-        address owner = myNFT.ownerOf(tokenId);
+    modifier needTokenOwner(address nftContract, uint256 tokenId) {
+        address owner = IERC721(nftContract).ownerOf(tokenId);
         require(msg.sender == owner, "not token owner");
         _;
     }
@@ -103,15 +102,21 @@ contract AuctionContract {
 
     // 创建 拍卖。
     function createAuction(
+        address nftContract,
         uint256 tokenId,
         uint256 minPrice,
         uint256 beginTime,
         uint256 periodTime
-    ) public needTokenOwner(tokenId) {
-        //  校验数据
+    ) public needTokenOwner(nftContract, tokenId) {
+        // 校验数据
         require(minPrice > 0, "minPrice is invalid");
         require(beginTime >= block.timestamp, "beginTime is invalid");
         require(periodTime > 5 minutes, "periodTime is invalid");
+
+        // 检查授权。
+        IERC721 nft = IERC721(nftContract);
+        address tokenAppr = nft.getApproved(tokenId);
+        require(tokenAppr == address(this), "token approve not match");
 
         // 序号。
         _auctionId++;
@@ -122,6 +127,7 @@ contract AuctionContract {
 
         // 拍卖信息。
         AuctionData storage auctionData = auctionMap[auctionId];
+        auctionData.nftContract = nftContract;
         auctionData.tokenId = tokenId;
         auctionData.auctionId = auctionId;
         auctionData.creator = msg.sender;
@@ -129,6 +135,10 @@ contract AuctionContract {
         auctionData.beginTime = beginTime;
         auctionData.endTime = endTime;
         auctionData.state = AuctionState.Normal;
+
+        // 映射。
+        mapping(uint256 => uint256) map2 = tokenAuctionMap[nftContract];
+        map2[tokenId] = auctionId;
 
         // 事件。
         emit AuctionCreate(
