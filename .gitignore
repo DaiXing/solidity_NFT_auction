@@ -13,3 +13,10 @@ states/
 # Optional
 .env
 .env.local
+
+.github/
+lib/
+lib
+
+
+
