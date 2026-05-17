@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import {ERC721, IERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import {
+    ERC721URIStorage
+} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 // 简单的NFT。测试用。
 contract MySimpleNFT is ERC721URIStorage {
@@ -82,16 +84,25 @@ contract AuctionContract {
 
     // owner校验。
     modifier needTokenOwner(address nftContract, uint256 tokenId) {
+        needTokenOwner_(nftContract, tokenId);
+        _;
+    }
+    function needTokenOwner_(
+        address nftContract,
+        uint256 tokenId
+    ) internal view {
         address owner = IERC721(nftContract).ownerOf(tokenId);
         require(msg.sender == owner, "not token owner");
-        _;
     }
     // owner校验。
     modifier needAuctionOwner(uint256 auctionId) {
+        needAuctionOwner_(auctionId);
+        _;
+    }
+    function needAuctionOwner_(uint256 auctionId) internal view {
         require(auctionId > 0, "auctionId is invalid");
         AuctionData storage auctionData = auctionMap[auctionId];
         require(auctionData.creator == msg.sender, "not auction owner");
-        _;
     }
 
     // 创建 拍卖。
@@ -177,8 +188,6 @@ contract AuctionContract {
             amount > auctionData.bidPrice,
             "amount is smaller than bidPrice"
         );
-
-        uint256 tokenId = auctionData.tokenId;
 
         // 退款。
         address oldbidder = auctionData.bidder;
