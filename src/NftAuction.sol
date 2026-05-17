@@ -211,6 +211,12 @@ contract AuctionContract {
         // 修改状态。
         auctionData.state = AuctionState.Cancel; // 取消。
 
+        address nftContract = auctionData.nftContract;
+        uint256 tokenId = auctionData.tokenId;
+
+        // 取消了。清除。
+        delete tokenAuctionMap[nftContract][tokenId];
+
         // 事件。
         emit AuctionCancel(auctionId);
     }
