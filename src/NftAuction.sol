@@ -42,11 +42,13 @@ struct AuctionData {
     AuctionState state; // 状态。
     address bidder; // 出价者。
     uint256 bidPrice; // 出价的金额。
+    uint256 bidId; // 竞拍的序号。
 }
 
 // 拍卖合约。
 contract AuctionContract {
-    uint256 _auctionId = 100; // 序号
+    uint256 _auctionId = 1; // 序号
+    uint256 _bidId = 1; // 竞拍的序号。
 
     // key1=NFT合约地址  key2=tokenID value=auctionID
     mapping(address => mapping(uint256 => uint256)) nftTokenAuctionMap;
@@ -67,13 +69,15 @@ contract AuctionContract {
     event AuctionRefund(
         uint256 indexed auctionId,
         address indexed to, // 给谁。
-        uint256 amount // 退款金额
+        uint256 amount, // 退款金额
+        uint256 bidId // 竞拍的序号。
     );
     // 竞拍。
     event AuctionBid(
         uint256 indexed auctionId,
         address indexed bidder, // 竞拍人。
-        uint256 bidPrice // 竞拍金额
+        uint256 bidPrice, // 竞拍金额
+        uint256 bidId // 竞拍的序号。
     );
     // 取消。
     event AuctionCancel(uint256 indexed auctionId);
@@ -192,10 +196,16 @@ contract AuctionContract {
         // 退款。
         address oldbidder = auctionData.bidder;
         uint256 oldbidPrice = auctionData.bidPrice;
+        uint256 oldbidId = auctionData.bidId;
+
+        // 序号。
+        _bidId++;
+        uint256 newbidId = _bidId;
 
         // 出价更高。保存价格。
         auctionData.bidder = msg.sender;
         auctionData.bidPrice = amount;
+        auctionData.bidId = newbidId;
 
         // 退款。
         if (oldbidder != address(0) && oldbidPrice > 0) {
@@ -204,11 +214,11 @@ contract AuctionContract {
             require(ok, "refund error");
 
             // 事件。
-            emit AuctionRefund(auctionId, oldbidder, oldbidPrice);
+            emit AuctionRefund(auctionId, oldbidder, oldbidPrice, oldbidId);
         }
 
         // 事件。
-        emit AuctionBid(auctionId, msg.sender, amount);
+        emit AuctionBid(auctionId, msg.sender, amount, newbidId);
     }
 
     // 取消。
