@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 // 简单的NFT。测试用。
 contract MySimpleNFT is ERC721URIStorage {
-    uint256 _tokenId = 0; // id
+    uint256 _tokenId = 100; // id
     constructor() ERC721("MyNFT", "MyNFT") {}
 
     // 铸造新的token
@@ -14,7 +14,9 @@ contract MySimpleNFT is ERC721URIStorage {
         _tokenId++;
         uint256 newTokenId = _tokenId;
 
+        // 给用户发一个token
         _safeMint(msg.sender, newTokenId);
+        // 给token绑定URI
         _setTokenURI(newTokenId, tokenUri);
     }
 }
@@ -42,7 +44,7 @@ struct AuctionData {
 
 // 拍卖合约。
 contract AuctionContract {
-    uint256 _auctionId = 0; // 序号
+    uint256 _auctionId = 100; // 序号
 
     // key1=NFT合约地址  key2=tokenID value=auctionID
     mapping(address => mapping(uint256 => uint256)) tokenAuctionMap;
@@ -51,38 +53,30 @@ contract AuctionContract {
 
     // 创建。
     event AuctionCreate(
-        address tokenOwner,
-        uint256 tokenId, // 用Go取日志。这里还需要索引吗？
-        uint256 auctionId,
-        uint256 minPrice,
-        uint256 beginTime,
-        uint256 endTime
+        address indexed nftContract, // NFT合约地址
+        address tokenOwner, // token owner
+        uint256 indexed tokenId, // token
+        uint256 indexed auctionId, // 拍卖
+        uint256 minPrice, // 起拍价
+        uint256 beginTime, // 开始时间
+        uint256 endTime // 结束时间
     );
     // 退款。
     event AuctionRefund(
-        uint256 tokenId, // 用Go取日志。这里还需要索引吗？
-        uint256 auctionId,
-        address to, // 给谁。
+        uint256 indexed auctionId,
+        address indexed to, // 给谁。
         uint256 amount // 退款金额
     );
     // 竞拍。
     event AuctionBid(
-        uint256 tokenId, // 用Go取日志。这里还需要索引吗？
-        uint256 auctionId,
-        address bidder, // 竞拍人。
+        uint256 indexed auctionId,
+        address indexed bidder, // 竞拍人。
         uint256 bidPrice // 竞拍金额
     );
     // 取消。
-    event AuctionCancel(
-        uint256 tokenId, // 用Go取日志。这里还需要索引吗？
-        uint256 auctionId
-    );
+    event AuctionCancel(uint256 indexed auctionId);
     // 结束。
-    event AuctionEnd(
-        uint256 tokenId, // 用Go取日志。这里还需要索引吗？
-        uint256 auctionId,
-        AuctionState state // 状态。
-    );
+    event AuctionEnd(uint256 indexed auctionId, AuctionState state);
 
     constructor() {}
 
@@ -102,21 +96,27 @@ contract AuctionContract {
 
     // 创建 拍卖。
     function createAuction(
-        address nftContract,
-        uint256 tokenId,
-        uint256 minPrice,
-        uint256 beginTime,
-        uint256 periodTime
+        address nftContract, // NFT合约地址
+        uint256 tokenId, // token
+        uint256 minPrice, // 起拍价
+        uint256 beginTime, // 开始时间
+        uint256 periodTime // 持续时间
     ) public needTokenOwner(nftContract, tokenId) {
         // 校验数据
         require(minPrice > 0, "minPrice is invalid");
         require(beginTime >= block.timestamp, "beginTime is invalid");
-        require(periodTime > 5 minutes, "periodTime is invalid");
+        require(periodTime > 5 minutes, "periodTime is too short");
 
         // 检查授权。
         IERC721 nft = IERC721(nftContract);
         address tokenAppr = nft.getApproved(tokenId);
         require(tokenAppr == address(this), "token approve not match");
+
+        // 映射。
+        mapping(uint256 => uint256) tokenIdMap = tokenAuctionMap[nftContract];
+        uint256 auctionIdTmp = tokenIdMap[tokenId];
+        // 不能重复拍卖。
+        require(auctionIdTmp == 0, "token is already in auction");
 
         // 序号。
         _auctionId++;
@@ -137,11 +137,11 @@ contract AuctionContract {
         auctionData.state = AuctionState.Normal;
 
         // 映射。
-        mapping(uint256 => uint256) map2 = tokenAuctionMap[nftContract];
-        map2[tokenId] = auctionId;
+        tokenIdMap[tokenId] = auctionId;
 
         // 事件。
         emit AuctionCreate(
+            nftContract,
             msg.sender,
             tokenId,
             auctionId,
@@ -193,11 +193,11 @@ contract AuctionContract {
             require(ok, "refund error");
 
             // 事件。
-            emit AuctionRefund(tokenId, auctionId, oldbidder, oldbidPrice);
+            emit AuctionRefund(auctionId, oldbidder, oldbidPrice);
         }
 
         // 事件。
-        emit AuctionBid(tokenId, auctionId, msg.sender, amount);
+        emit AuctionBid(auctionId, msg.sender, amount);
     }
 
     // 取消。
@@ -206,13 +206,13 @@ contract AuctionContract {
     ) public needAuctionOwner(auctionId) {
         AuctionData storage auctionData = auctionMap[auctionId];
         // 未开始的，才能取消。
-        require(auctionData.beginTime <= block.timestamp, "auction is begin");
+        require(auctionData.beginTime <= block.timestamp, "auction has begun");
 
         // 修改状态。
         auctionData.state = AuctionState.Cancel; // 取消。
 
         // 事件。
-        emit AuctionCancel(auctionData.tokenId, auctionId);
+        emit AuctionCancel(auctionId);
     }
 
     // 结束。
@@ -225,28 +225,33 @@ contract AuctionContract {
             "state is not Normal"
         );
 
+        address nftContract = auctionData.nftContract;
         uint256 tokenId = auctionData.tokenId;
         address creator = auctionData.creator;
         address bidder = auctionData.bidder;
         uint256 bidPrice = auctionData.bidPrice;
 
+        // 这个token拍卖结束了。
+        delete tokenAuctionMap[nftContract][tokenId];
+
         // 有人出价。
         if (auctionData.bidder > address(0) && auctionData.bidPrice > 0) {
+            // 竞拍成功了。
+            auctionData.state = AuctionState.Success;
+
             // 把钱给 creator
             (bool ok, ) = payable(creator).call{value: bidPrice}("");
             require(ok, "transfer money error");
 
             // 把token给 bidder
-            myNFT.transferFrom(creator, bidder, tokenId);
-
-            // 竞拍成功了。
-            auctionData.state = AuctionState.Success;
+            IERC721 nft = IERC721(nftContract);
+            nft.transferFrom(creator, bidder, tokenId);
         } else {
             // 竞拍失败了。
             auctionData.state = AuctionState.Fail;
         }
 
         // 事件。
-        emit AuctionEnd(auctionData.tokenId, auctionId, auctionData.state);
+        emit AuctionEnd(auctionId, auctionData.state);
     }
 }
