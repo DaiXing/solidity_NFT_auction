@@ -42,7 +42,7 @@ struct AuctionData {
     AuctionState state; // 状态。
     address bidder; // 出价者。
     uint256 bidPrice; // 出价的金额。
-    uint256 bidId; // 竞拍的序号。
+    uint256 bidId; // 出价的序号。
 }
 
 // 拍卖合约。
