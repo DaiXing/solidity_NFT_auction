@@ -47,7 +47,7 @@ contract AuctionContract {
     uint256 _auctionId = 100; // 序号
 
     // key1=NFT合约地址  key2=tokenID value=auctionID
-    mapping(address => mapping(uint256 => uint256)) tokenAuctionMap;
+    mapping(address => mapping(uint256 => uint256)) nftTokenAuctionMap;
     // key=auctionID
     mapping(uint256 => AuctionData) auctionMap;
 
@@ -113,7 +113,9 @@ contract AuctionContract {
         require(tokenAppr == address(this), "token approve not match");
 
         // 映射。
-        mapping(uint256 => uint256) tokenIdMap = tokenAuctionMap[nftContract];
+        mapping(uint256 => uint256) storage tokenIdMap = nftTokenAuctionMap[
+            nftContract
+        ];
         uint256 auctionIdTmp = tokenIdMap[tokenId];
         // 不能重复拍卖。
         require(auctionIdTmp == 0, "token is already in auction");
@@ -215,7 +217,7 @@ contract AuctionContract {
         uint256 tokenId = auctionData.tokenId;
 
         // 取消了。清除。
-        delete tokenAuctionMap[nftContract][tokenId];
+        delete nftTokenAuctionMap[nftContract][tokenId];
 
         // 事件。
         emit AuctionCancel(auctionId);
@@ -238,7 +240,7 @@ contract AuctionContract {
         uint256 bidPrice = auctionData.bidPrice;
 
         // 这个token拍卖结束了。
-        delete tokenAuctionMap[nftContract][tokenId];
+        delete nftTokenAuctionMap[nftContract][tokenId];
 
         // 有人出价。
         if (auctionData.bidder > address(0) && auctionData.bidPrice > 0) {
