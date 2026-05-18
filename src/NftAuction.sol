@@ -37,8 +37,8 @@ contract AuctionContract {
 
     // 创建。
     event AuctionCreate(
-        address indexed nftContract, // NFT合约地址
-        address tokenOwner, // token owner
+        address nftContract, // NFT合约地址
+        address indexed seller, // 卖家
         uint256 indexed tokenId, // tokenID
         uint256 indexed auctionId, // 拍卖ID
         uint256 minPrice, // 起拍价
