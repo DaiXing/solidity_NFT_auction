@@ -97,6 +97,7 @@ contract AuctionContract {
         uint256 beginTime, // 开始时间
         uint256 periodTime // 持续时间
     ) public needTokenOwner(nftContract, tokenId) {
+        address creator = msg.sender;
         // 校验数据
         require(minPrice > 0, "minPrice is invalid");
         require(beginTime >= block.timestamp, "beginTime is invalid");
@@ -108,16 +109,17 @@ contract AuctionContract {
         require(tokenAppr == address(this), "token approve not match");
 
         // 映射。
-        mapping(uint256 => uint256) storage tokenIdMap = nftTokenAuctionMap[
-            nftContract
-        ];
-        uint256 auctionIdTmp = tokenIdMap[tokenId];
+        mapping(uint256 => uint256)
+            storage tokenAuctionMap = nftTokenAuctionMap[nftContract];
+        uint256 auctionIdTmp = tokenAuctionMap[tokenId];
         // 不能重复拍卖。
-        require(auctionIdTmp == 0, "token is already in auction");
+        require(auctionIdTmp == 0, "auction is repeated");
 
         // 序号。
         _auctionId++;
         uint256 auctionId = _auctionId;
+        // 映射。
+        tokenAuctionMap[tokenId] = auctionId;
 
         // 结束时间。
         uint256 endTime = beginTime + periodTime;
@@ -127,19 +129,19 @@ contract AuctionContract {
         auctionData.nftContract = nftContract;
         auctionData.tokenId = tokenId;
         auctionData.auctionId = auctionId;
-        auctionData.creator = msg.sender;
+        auctionData.creator = creator;
         auctionData.minPrice = minPrice;
         auctionData.beginTime = beginTime;
         auctionData.endTime = endTime;
         auctionData.state = AuctionState.Normal;
 
-        // 映射。
-        tokenIdMap[tokenId] = auctionId;
+        // 把币转给拍卖合约。防止一币多卖。
+        nft.transferFrom(creator, address(this), tokenId);
 
         // 事件。
         emit AuctionCreate(
             nftContract,
-            msg.sender,
+            creator,
             tokenId,
             auctionId,
             minPrice,
@@ -207,19 +209,28 @@ contract AuctionContract {
     ) public needAuctionOwner(auctionId) {
         AuctionData storage auctionData = auctionMap[auctionId];
         // 未开始的，才能取消。
-        require(auctionData.beginTime <= block.timestamp, "auction has begun");
+        require(auctionData.beginTime > block.timestamp, "auction has begun");
+        // 判断状态
+        require(
+            auctionData.state == AuctionState.Normal,
+            "state is not Normal"
+        );
 
         // 修改状态。
         auctionData.state = AuctionState.Cancel; // 取消。
 
         address nftContract = auctionData.nftContract;
         uint256 tokenId = auctionData.tokenId;
+        IERC721 nft = IERC721(nftContract);
 
         // 取消了。清除。
         delete nftTokenAuctionMap[nftContract][tokenId];
 
         // 事件。
         emit AuctionCancel(auctionId);
+
+        // 把币返给卖家。
+        nft.transferFrom(address(this), auctionData.creator, tokenId);
     }
 
     // 结束。
@@ -233,6 +244,7 @@ contract AuctionContract {
         );
 
         address nftContract = auctionData.nftContract;
+        IERC721 nft = IERC721(nftContract);
         uint256 tokenId = auctionData.tokenId;
         address creator = auctionData.creator;
         address bidder = auctionData.bidder;
@@ -251,11 +263,13 @@ contract AuctionContract {
             require(ok, "transfer money error");
 
             // 把token给 bidder
-            IERC721 nft = IERC721(nftContract);
-            nft.transferFrom(creator, bidder, tokenId);
+            nft.transferFrom(address(this), bidder, tokenId);
         } else {
             // 竞拍失败了。
             auctionData.state = AuctionState.Fail;
+
+            // 把币返给卖家。
+            nft.transferFrom(address(this), creator, tokenId);
         }
 
         // 事件。
