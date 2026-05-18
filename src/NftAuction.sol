@@ -5,9 +5,9 @@ import {IERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 // 拍卖的状态
 enum AuctionState {
-    Normal, // 正常。
-    Success, // 竞拍成功。
-    Fail, // 竞拍失败。
+    Normal, // 正常。 未开始或进行中。
+    Success, // 成功。 token被拍出了
+    Fail, // 失败。 token没有拍出
     Cancel // 取消了。
 }
 // 拍卖的信息
@@ -15,7 +15,7 @@ struct AuctionData {
     address nftContract; // token合约地址
     uint256 tokenId; // token
     uint256 auctionId; // 拍卖
-    address creator; // 创建者
+    address seller; // 卖家
     uint256 minPrice; // 起拍价
     uint256 beginTime; // 开始时间
     uint256 endTime; // 结束时间
@@ -86,7 +86,7 @@ contract AuctionContract {
     function needAuctionOwner_(uint256 auctionId) internal view {
         require(auctionId > 0, "auctionId is invalid");
         AuctionData storage auctionData = auctionMap[auctionId];
-        require(auctionData.creator == msg.sender, "not auction owner");
+        require(auctionData.seller == msg.sender, "not auction owner");
     }
 
     // 创建 拍卖。
@@ -97,7 +97,7 @@ contract AuctionContract {
         uint256 beginTime, // 开始时间
         uint256 periodTime // 持续时间
     ) public needTokenOwner(nftContract, tokenId) {
-        address creator = msg.sender;
+        address seller = msg.sender;
         // 校验数据
         require(minPrice > 0, "minPrice is invalid");
         require(beginTime >= block.timestamp, "beginTime is invalid");
@@ -129,19 +129,19 @@ contract AuctionContract {
         auctionData.nftContract = nftContract;
         auctionData.tokenId = tokenId;
         auctionData.auctionId = auctionId;
-        auctionData.creator = creator;
+        auctionData.seller = seller;
         auctionData.minPrice = minPrice;
         auctionData.beginTime = beginTime;
         auctionData.endTime = endTime;
         auctionData.state = AuctionState.Normal;
 
         // 把币转给拍卖合约。防止一币多卖。
-        nft.transferFrom(creator, address(this), tokenId);
+        nft.transferFrom(seller, address(this), tokenId);
 
         // 事件。
         emit AuctionCreate(
             nftContract,
-            creator,
+            seller,
             tokenId,
             auctionId,
             minPrice,
@@ -230,7 +230,7 @@ contract AuctionContract {
         emit AuctionCancel(auctionId);
 
         // 把币返给卖家。
-        nft.transferFrom(address(this), auctionData.creator, tokenId);
+        nft.transferFrom(address(this), auctionData.seller, tokenId);
     }
 
     // 结束。
@@ -246,7 +246,7 @@ contract AuctionContract {
         address nftContract = auctionData.nftContract;
         IERC721 nft = IERC721(nftContract);
         uint256 tokenId = auctionData.tokenId;
-        address creator = auctionData.creator;
+        address seller = auctionData.seller;
         address bidder = auctionData.bidder;
         uint256 bidPrice = auctionData.bidPrice;
 
@@ -258,8 +258,8 @@ contract AuctionContract {
             // 竞拍成功了。
             auctionData.state = AuctionState.Success;
 
-            // 把钱给 creator
-            (bool ok, ) = payable(creator).call{value: bidPrice}("");
+            // 把钱给 seller
+            (bool ok, ) = payable(seller).call{value: bidPrice}("");
             require(ok, "transfer money error");
 
             // 把token给 bidder
@@ -269,7 +269,7 @@ contract AuctionContract {
             auctionData.state = AuctionState.Fail;
 
             // 把币返给卖家。
-            nft.transferFrom(address(this), creator, tokenId);
+            nft.transferFrom(address(this), seller, tokenId);
         }
 
         // 事件。
