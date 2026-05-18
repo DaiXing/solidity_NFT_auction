@@ -1,27 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import {ERC721, IERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import {
-    ERC721URIStorage
-} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-
-// 简单的NFT。测试用。
-contract MySimpleNFT is ERC721URIStorage {
-    uint256 _tokenId = 100; // id
-    constructor() ERC721("MyNFT", "MyNFT") {}
-
-    // 铸造新的token
-    function mintToken(string memory tokenUri) public {
-        _tokenId++;
-        uint256 newTokenId = _tokenId;
-
-        // 给用户发一个token
-        _safeMint(msg.sender, newTokenId);
-        // 给token绑定URI
-        _setTokenURI(newTokenId, tokenUri);
-    }
-}
+import {IERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 // 拍卖的状态
 enum AuctionState {
@@ -47,34 +27,34 @@ struct AuctionData {
 
 // 拍卖合约。
 contract AuctionContract {
-    uint256 _auctionId = 1; // 序号
+    uint256 _auctionId = 1; // 拍卖的序号
     uint256 _bidId = 1; // 竞拍的序号。
 
     // key1=NFT合约地址  key2=tokenID value=auctionID
     mapping(address => mapping(uint256 => uint256)) nftTokenAuctionMap;
-    // key=auctionID
+    // key=auctionID value=拍卖信息
     mapping(uint256 => AuctionData) auctionMap;
 
     // 创建。
     event AuctionCreate(
         address indexed nftContract, // NFT合约地址
         address tokenOwner, // token owner
-        uint256 indexed tokenId, // token
-        uint256 indexed auctionId, // 拍卖
+        uint256 indexed tokenId, // tokenID
+        uint256 indexed auctionId, // 拍卖ID
         uint256 minPrice, // 起拍价
         uint256 beginTime, // 开始时间
         uint256 endTime // 结束时间
     );
     // 退款。
     event AuctionRefund(
-        uint256 indexed auctionId,
+        uint256 indexed auctionId, // 拍卖ID
         address indexed to, // 给谁。
         uint256 amount, // 退款金额
         uint256 bidId // 竞拍的序号。
     );
     // 竞拍。
     event AuctionBid(
-        uint256 indexed auctionId,
+        uint256 indexed auctionId, // 拍卖ID
         address indexed bidder, // 竞拍人。
         uint256 bidPrice, // 竞拍金额
         uint256 bidId // 竞拍的序号。
