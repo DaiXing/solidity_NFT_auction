@@ -12,7 +12,9 @@ contract MySimpleNFT is ERC721URIStorage {
     constructor() ERC721("MyNFT", "MyNFT") {}
 
     // 铸造新的token
-    function mintToken(string memory tokenUri) public {
+    function mintToken(
+        string memory tokenUri
+    ) public returns (uint256 tokenId_) {
         _tokenId++;
         uint256 newTokenId = _tokenId;
 
@@ -20,5 +22,7 @@ contract MySimpleNFT is ERC721URIStorage {
         _safeMint(msg.sender, newTokenId);
         // 给token绑定URI
         _setTokenURI(newTokenId, tokenUri);
+
+        return newTokenId;
     }
 }

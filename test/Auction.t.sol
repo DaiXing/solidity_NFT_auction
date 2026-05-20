@@ -2,9 +2,10 @@
 pragma solidity ^0.8.13;
 
 import {Test} from "forge-std/Test.sol";
-import {Counter} from "../src/Counter.sol";
+// import {Counter} from "../src/Counter.sol";
 import {AuctionContractV1} from "../src/NftAuctionV1.sol";
 import {AuctionContractV2} from "../src/NftAuctionV2.sol";
+import {MySimpleNFT} from "../src/NftOnly.sol";
 import {
     ERC1967Proxy
 } from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
@@ -18,11 +19,22 @@ contract AuctionTest is Test {
     address addrAuctionV2;
     address addrProxy;
 
+    MySimpleNFT nft; // token
+    address addrNft;
+
     address userOwner = address(0xAA01);
     address user1 = address(0xBB01);
     address user2 = address(0xBB02);
 
+    // 几个token。
+    uint256 tokenApple;
+    uint256 tokenOrange;
+
     function setUp() public {
+        deal(userOwner, 2000);
+        deal(user1, 2000);
+        deal(user2, 2000);
+
         vm.startPrank(userOwner);
         auctionV1 = new AuctionContractV1();
         auctionV2 = new AuctionContractV2();
@@ -30,17 +42,46 @@ contract AuctionTest is Test {
         addrAuctionV2 = address(auctionV2);
 
         // 初始化。
-        bytes memory funcData = abi.encodeWithSignature("initialize()", ());
+        bytes memory funcData = abi.encodeWithSignature("initialize()");
 
         // 配置代理。
         proxy = new ERC1967Proxy(addrAuctionV1, funcData);
         addrProxy = address(proxy);
-        vm.stopPrank();
 
-        deal(user1, 2000);
+        // 铸币。
+        nft = new MySimpleNFT();
+        addrNft = address(nft);
+        tokenApple = nft.mintToken("http://aa.com/apple.json");
+        tokenOrange = nft.mintToken("http://aa.com/orange.json");
+
+        vm.stopPrank();
     }
 
-    function test_Increment() public {}
+    function test_AuctionCreateError() public {
+        // 使用代理合约。
+        AuctionContractV1 auctionContract = AuctionContractV1(addrProxy);
+
+        // 错误。不是 token 的 owner
+        vm.prank(user2);
+        vm.expectRevert();
+        auctionContract.createAuction(
+            addrNft,
+            tokenApple,
+            100,
+            block.timestamp + 1,
+            5
+        );
+
+        // 错误。 token 不存在。  ERC721NonexistentToken
+        vm.prank(userOwner);
+        auctionContract.createAuction(
+            addrNft,
+            uint256(9999),
+            100,
+            block.timestamp + 1,
+            5
+        );
+    }
 
     function testFuzz_SetNumber(uint256 x) public {}
 }
