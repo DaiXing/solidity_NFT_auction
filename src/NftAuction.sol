@@ -13,6 +13,7 @@ enum AuctionState {
     Fail, // 失败。 token没有拍出
     Cancel // 取消了。
 }
+
 // 拍卖的信息
 struct AuctionData {
     address nftContract; // token合约地址
