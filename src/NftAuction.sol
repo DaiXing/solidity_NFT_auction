@@ -2,6 +2,9 @@
 pragma solidity ^0.8.13;
 
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "lib/openzeppelin-contracts-upgradeable/contracts/proxy/utils/UUPSUpgradeable.sol";
+import "lib/openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.sol";
+import "lib/openzeppelin-contracts-upgradeable/contracts/access/OwnableUpgradeable.sol";
 
 // 拍卖的状态
 enum AuctionState {
@@ -25,10 +28,14 @@ struct AuctionData {
     uint256 bidId; // 出价的序号。
 }
 
-// 拍卖合约。
-contract AuctionContract {
-    uint256 _auctionId = 1; // 拍卖的序号
-    uint256 _bidId = 1; // 竞拍的序号。
+// 拍卖合约。 V1
+contract AuctionContractV1 is
+    Initializable,
+    UUPSUpgradeable,
+    OwnableUpgradeable
+{
+    uint256 _auctionId; // 拍卖的序号
+    uint256 _bidId; // 竞拍的序号。
 
     // key1=NFT合约地址  key2=tokenID value=auctionID
     mapping(address => mapping(uint256 => uint256)) nftTokenAuctionMap;
@@ -64,7 +71,26 @@ contract AuctionContract {
     // 结束。
     event AuctionEnd(uint256 indexed auctionId, AuctionState state);
 
-    constructor() {}
+    // --------------------
+    constructor() {
+        _disableInitializers(); // 只能初始化1次。
+    }
+
+    // 初始化。 代理合约需要这个函数，设置字段等。
+    function initialize() public initializer {
+        // 调用者为owner。
+        __Ownable_init(msg.sender);
+        // 初始化数据。
+        _auctionId = 1;
+        _bidId = 1;
+    }
+
+    // 授权升级。 只有owner才能升级。
+    function _authorizeUpgrade(address newImpl) internal override onlyOwner {
+        // 修饰器，判断了owner。不需要其他逻辑。
+    }
+
+    // --------------------
 
     // owner校验。
     modifier needTokenOwner(address nftContract, uint256 tokenId) {

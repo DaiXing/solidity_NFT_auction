@@ -2,7 +2,7 @@
 forge install OpenZeppelin/openzeppelin-contracts 
 forge install OpenZeppelin/openzeppelin-contracts-upgradeable
 
-
+git clone --depth 1 https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable.git
 
 
 
