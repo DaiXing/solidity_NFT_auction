@@ -31,9 +31,13 @@ contract AuctionTest is Test {
     uint256 tokenOrange;
 
     function setUp() public {
+        // 发币。
         deal(userOwner, 2000);
         deal(user1, 2000);
         deal(user2, 2000);
+
+        // 设置时间
+        vm.warp(300000000);
 
         vm.startPrank(userOwner);
         auctionV1 = new AuctionContractV1();
@@ -74,12 +78,35 @@ contract AuctionTest is Test {
 
         // 错误。 token 不存在。  ERC721NonexistentToken
         vm.prank(userOwner);
+        vm.expectRevert();
         auctionContract.createAuction(
             addrNft,
             uint256(9999),
             100,
             block.timestamp + 1,
             5
+        );
+
+        // 错误。 beginTime is invalid
+        vm.prank(userOwner);
+        vm.expectRevert();
+        auctionContract.createAuction(
+            addrNft,
+            tokenApple,
+            100,
+            block.timestamp - 99999,
+            5
+        );
+
+        // 错误。 periodTime is too short
+        vm.prank(userOwner);
+        vm.expectRevert();
+        auctionContract.createAuction(
+            addrNft,
+            tokenApple,
+            100,
+            block.timestamp + 1,
+            3 seconds
         );
     }
 

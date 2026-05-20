@@ -129,7 +129,7 @@ contract AuctionContractV1 is
         uint256 minPrice, // 起拍价
         uint256 beginTime, // 开始时间
         uint256 periodTime // 持续时间
-    ) public needTokenOwner(nftContract, tokenId) {
+    ) public needTokenOwner(nftContract, tokenId) returns (uint256 auctionId_) {
         address seller = msg.sender;
         // 校验数据
         require(minPrice > 0, "minPrice is invalid");
@@ -181,6 +181,7 @@ contract AuctionContractV1 is
             beginTime,
             endTime
         );
+        return auctionId;
     }
 
     // 竞拍。
