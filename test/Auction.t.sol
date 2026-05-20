@@ -4,7 +4,11 @@ pragma solidity ^0.8.13;
 import {Test} from "forge-std/Test.sol";
 import {console} from "forge-std/console.sol";
 // import {Counter} from "../src/Counter.sol";
-import {AuctionContractV1, AuctionData} from "../src/NftAuctionV1.sol";
+import {
+    AuctionContractV1,
+    AuctionData,
+    AuctionState
+} from "../src/NftAuctionV1.sol";
 import {AuctionContractV2} from "../src/NftAuctionV2.sol";
 import {MySimpleNFT} from "../src/NftOnly.sol";
 import {
@@ -31,11 +35,14 @@ contract AuctionTest is Test {
     uint256 tokenApple;
     uint256 tokenOrange;
 
+    // 初始化金额。
+    uint256 initAmount = 2000;
+
     function setUp() public {
         // 发币。
-        deal(userOwner, 2000);
-        deal(user1, 2000);
-        deal(user2, 2000);
+        deal(userOwner, initAmount);
+        deal(user1, initAmount);
+        deal(user2, initAmount);
 
         // 设置时间
         vm.warp(300000000);
@@ -142,6 +149,12 @@ contract AuctionTest is Test {
             block.timestamp + 1,
             6 minutes
         );
+
+        // token 的 owner 变化了。
+        address tokenOwnerB = nft.ownerOf(tokenApple);
+        require(tokenOwnerB == addrProxy, "token owner not match");
+        require(tokenOwnerB != userOwner, "token owner not match");
+
         return auctionId;
     }
 
@@ -195,14 +208,62 @@ contract AuctionTest is Test {
         logicV1.bidAuction{value: 100}(auctionId);
 
         // 出价成功。 价格更高。
+        uint256 amount2 = 103;
         vm.prank(user2);
-        uint256 bid2 = logicV1.bidAuction{value: 103}(auctionId);
+        uint256 bid2 = logicV1.bidAuction{value: amount2}(auctionId);
         console.log(unicode"   出价 = ", bid2);
 
         // 查看。
         AuctionData memory auctionB = logicV1.queryAuction(auctionId);
         require(auctionB.bidder == user2, "bidder not match");
-        require(auctionB.bidPrice == 103, "bidPrice not match");
+        require(auctionB.bidPrice == amount2, "bidPrice not match");
+
+        // 查看余额。
+        console.log(unicode"   user1 余额 = ", user1.balance);
+        console.log(unicode"   user2 余额 = ", user2.balance);
+        require(user1.balance == initAmount, "user1 balance not match");
+        require(
+            user2.balance + amount2 == initAmount,
+            "user2 balance not match"
+        );
+
+        // 错误。 已经开始的，不能取消。  auction has begun
+        vm.prank(userOwner);
+        vm.expectRevert();
+        logicV1.cancelAuction(auctionId);
+
+        // 错误。 未到结束时间。  end time not match
+        vm.prank(userOwner);
+        vm.expectRevert();
+        logicV1.endAuction(auctionId);
+
+        // 正常结束。
+        // mock 结束时间。
+        vm.warp(block.timestamp + 22 minutes);
+        vm.prank(userOwner);
+        logicV1.endAuction(auctionId);
+        console.log(unicode"   拍卖，正常结束了");
+
+        // token 给 user2
+        address tokenOwner = nft.ownerOf(tokenApple);
+        console.log(unicode"   token owner = ", tokenOwner);
+        require(tokenOwner == user2, "tokenOwner not match");
+
+        // 钱 给 userOwner
+        uint256 balanceB = userOwner.balance;
+        console.log(unicode"   userOwner balance = ", balanceB);
+        require(
+            balanceB == initAmount + amount2,
+            "userOwner balance not match"
+        );
+
+        // 查看。
+        AuctionData memory auctionC = logicV1.queryAuction(auctionId);
+        console.log(unicode"   AuctionState = ", uint256(auctionC.state));
+        require(
+            auctionC.state == AuctionState.Success,
+            "AuctionState not match"
+        );
     }
 
     // 升级。

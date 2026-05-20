@@ -281,7 +281,7 @@ contract AuctionContractV1 is
     function endAuction(uint256 auctionId) public needAuctionOwner(auctionId) {
         AuctionData storage auctionData = auctionMap[auctionId];
         // 时间完结，才能结束。
-        require(auctionData.endTime > block.timestamp, "auction is end");
+        require(auctionData.endTime < block.timestamp, "end time not match");
         require(
             auctionData.state == AuctionState.Normal,
             "state is not Normal"
