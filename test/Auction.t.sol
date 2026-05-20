@@ -257,7 +257,7 @@ contract AuctionTest is Test {
             "userOwner balance not match"
         );
 
-        // 查看。
+        // 查看。 状态。
         AuctionData memory auctionC = logicV1.queryAuction(auctionId);
         console.log(unicode"   AuctionState = ", uint256(auctionC.state));
         require(
