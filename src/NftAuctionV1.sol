@@ -122,6 +122,13 @@ contract AuctionContractV1 is
         require(auctionData.seller == msg.sender, "not auction owner");
     }
 
+    // 查询拍卖信息。
+    function queryAuction(
+        uint256 auctionId
+    ) public returns (AuctionData memory) {
+        return auctionMap[auctionId];
+    }
+
     // 创建 拍卖。
     function createAuction(
         address nftContract, // NFT合约地址
@@ -134,7 +141,7 @@ contract AuctionContractV1 is
         // 校验数据
         require(minPrice > 0, "minPrice is invalid");
         require(beginTime >= block.timestamp, "beginTime is invalid");
-        require(periodTime > 5 minutes, "periodTime is too short");
+        require(periodTime > 2 minutes, "periodTime is too short");
 
         // 检查授权。
         IERC721 nft = IERC721(nftContract);
@@ -185,7 +192,9 @@ contract AuctionContractV1 is
     }
 
     // 竞拍。
-    function bidAuction(uint256 auctionId) public payable {
+    function bidAuction(
+        uint256 auctionId
+    ) public payable returns (uint256 bidId_) {
         uint256 amount = msg.value;
         require(amount > 0, "amount is invalid");
         AuctionData storage auctionData = auctionMap[auctionId];
@@ -198,7 +207,7 @@ contract AuctionContractV1 is
             "state is not Normal"
         );
         // 不能重复。
-        require(auctionData.bidder == msg.sender, "bid repeated");
+        require(auctionData.bidder != msg.sender, "bid repeated");
         // 金额必须够
         require(
             amount > auctionData.minPrice,
@@ -235,6 +244,7 @@ contract AuctionContractV1 is
 
         // 事件。
         emit AuctionBid(auctionId, msg.sender, amount, newbidId);
+        return newbidId;
     }
 
     // 取消。
