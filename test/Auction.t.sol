@@ -143,8 +143,8 @@ contract AuctionTest is Test {
             addrNft,
             tokenApple,
             100,
-            block.timestamp + 1,
-            6 minutes
+            block.timestamp + 1 minutes, // 开始时间
+            6 minutes // 持续时间
         );
 
         // token 的 owner 变化了。
@@ -171,7 +171,7 @@ contract AuctionTest is Test {
         logicV1.bidAuction{value: 102}(auctionId);
 
         // 开始了。
-        vm.warp(block.timestamp + 3);
+        vm.warp(block.timestamp + 3 minutes);
 
         // 错误。余额不足。  EvmError: OutOfFunds
         // vm.prank(user1);
@@ -261,6 +261,54 @@ contract AuctionTest is Test {
             auctionC.state == AuctionState.Success,
             "AuctionState not match"
         );
+    }
+
+    // 取消。
+    function test_CancelAuction() public {
+        console.log(unicode"\n>> 测试，取消。");
+        uint256 auctionId = createAuctionForTokenApple();
+
+        IAuction logic = IAuction(addrProxy);
+
+        // 前面取值也不起作用。后面一直都当前值。
+        uint256 now = block.timestamp;
+        uint256 now2 = now;
+        console.log("  now = ", now);
+
+        // 只有创建者，才能取消。  not auction owner
+        vm.prank(user2);
+        vm.expectRevert();
+        logic.cancelAuction(auctionId);
+
+        // 已经过了时间，不能取消了。 auction has begun
+        vm.prank(userOwner);
+        vm.warp(block.timestamp + 1 hours); // 时间过了。
+        vm.expectRevert();
+        logic.cancelAuction(auctionId);
+
+        console.log("  now  = ", now);
+        console.log("  now2 = ", now2);
+
+        // 正常取消。
+        vm.prank(userOwner);
+        vm.warp(block.timestamp - 1 hours);
+        logic.cancelAuction(auctionId);
+        console.log("  cancel OK ");
+
+        // 查询。
+        AuctionData memory auctionData = logic.queryAuction(auctionId);
+        console.log("  state = ", uint256(auctionData.state));
+        require(auctionData.state == AuctionState.Cancel, "state not match");
+
+        // token 返回给 owner
+        address tokenOwner = nft.ownerOf(tokenApple);
+        console.log("  tokenOwner = ", tokenOwner);
+        require(tokenOwner == userOwner, "tokenOwner not match");
+
+        // 不能重复取消。 state is not Normal
+        vm.prank(userOwner);
+        vm.expectRevert();
+        logic.cancelAuction(auctionId);
     }
 
     // 升级。
