@@ -1,29 +1,73 @@
-Compiling 61 files with Solc 0.8.33
-Solc 0.8.33 finished in 3.30s
-Compiler run successful!
+Compiling 62 files with Solc 0.8.33
+Solc 0.8.33 finished in 4.88s
+Compiler run successful with warnings:
+Warning (2072): Unused local variable.
+   --> test/AuctionDetail.t.sol:215:9:
+    |
+215 |         uint256 bidId2 = auctionContract.bidAuction{value: amount2}(auctionId);
+    |         ^^^^^^^^^^^^^^
+
+Warning (2072): Unused local variable.
+   --> test/AuctionDetail.t.sol:468:9:
+    |
+468 |         uint256 bidId = auctionContract.bidAuction{value: amount}(auctionId);
+    |         ^^^^^^^^^^^^^
+
 Analysing contracts...
 Running tests...
 
 Ran 5 tests for test/Auction.t.sol:AuctionTest
-[PASS] testFuzz_SetNumber(uint256) (runs: 256, μ: 600, ~: 537)
+[PASS] testFuzz_SetNumber(uint256) (runs: 256, μ: 596, ~: 537)
 [PASS] test_AuctionCreateError() (gas: 110226)
-[PASS] test_BidAuctionAndEnd() (gas: 536816)
+[PASS] test_BidAuctionAndEnd() (gas: 537111)
 [PASS] test_CancelAuction() (gas: 325081)
 [PASS] test_Upgrade() (gas: 395169)
-Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 5.06ms (8.59ms CPU time)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 7.80ms (9.77ms CPU time)
 
-Ran 1 test suite in 244.03ms (5.06ms CPU time): 5 tests passed, 0 failed, 0 skipped (5 total tests)
+Ran 29 tests for test/AuctionDetail.t.sol:AuctionDetailTest
+[PASS] testFuzz_BidAuction_VariousAmounts(uint256) (runs: 256, μ: 387169, ~: 387169)
+[PASS] testFuzz_CreateAuction_DifferentMinPrice(uint256) (runs: 256, μ: 298344, ~: 298344)
+[PASS] test_BidAuction_AmountTooLow() (gas: 303367)
+[PASS] test_BidAuction_BalanceCheck() (gas: 385927)
+[PASS] test_BidAuction_BeforeStartTime() (gas: 301416)
+[PASS] test_BidAuction_ExactMinPrice() (gas: 387466)
+[PASS] test_BidAuction_Outbid() (gas: 418855)
+[PASS] test_BidAuction_RepeatedBid() (gas: 390186)
+[PASS] test_BidAuction_Success() (gas: 388762)
+[PASS] test_BidAuction_ZeroValue() (gas: 294392)
+[PASS] test_CancelAuction_AfterStart() (gas: 293688)
+[PASS] test_CancelAuction_NotOwner() (gas: 293635)
+[PASS] test_CancelAuction_RepeatedCancel() (gas: 286538)
+[PASS] test_CancelAuction_Success() (gas: 298486)
+[PASS] test_CreateAuction_InvalidBeginTime() (gas: 35626)
+[PASS] test_CreateAuction_MultipleAuctions() (gas: 537599)
+[PASS] test_CreateAuction_NoApprove() (gas: 40872)
+[PASS] test_CreateAuction_NotTokenOwner() (gas: 35600)
+[PASS] test_CreateAuction_PeriodTooShort() (gas: 35950)
+[PASS] test_CreateAuction_Success() (gas: 291627)
+[PASS] test_CreateAuction_TokenNotExist() (gas: 31829)
+[PASS] test_EndAuction_BeforeEndTime() (gas: 382822)
+[PASS] test_EndAuction_NoBid() (gas: 301367)
+[PASS] test_EndAuction_Success() (gas: 406240)
+[PASS] test_QueryAuction_Existing() (gas: 304703)
+[PASS] test_QueryDesc_Initial() (gas: 28551)
+[PASS] test_Upgrade_DataPreserved() (gas: 362647)
+[PASS] test_Upgrade_NewFunctionality() (gas: 74278)
+[PASS] test_Upgrade_QueryDescChanged() (gas: 347884)
+Suite result: ok. 29 passed; 0 failed; 0 skipped; finished in 168.55ms (258.65ms CPU time)
+
+Ran 2 test suites in 254.03ms (176.35ms CPU time): 34 tests passed, 0 failed, 0 skipped (34 total tests)
 
 ╭----------------------+------------------+------------------+---------------+-----------------╮
 | File                 | % Lines          | % Statements     | % Branches    | % Funcs         |
 +==============================================================================================+
 | script/Auction.s.sol | 0.00% (0/4)      | 0.00% (0/2)      | 100.00% (0/0) | 0.00% (0/2)     |
 |----------------------+------------------+------------------+---------------+-----------------|
-| src/AuctionV1.sol    | 95.15% (98/103)  | 95.10% (97/102)  | 4.26% (2/47)  | 100.00% (13/13) |
+| src/AuctionV1.sol    | 97.09% (100/103) | 97.06% (99/102)  | 4.26% (2/47)  | 100.00% (13/13) |
 |----------------------+------------------+------------------+---------------+-----------------|
 | src/AuctionV2.sol    | 100.00% (6/6)    | 100.00% (4/4)    | 100.00% (0/0) | 100.00% (2/2)   |
 |----------------------+------------------+------------------+---------------+-----------------|
 | src/NftOnly.sol      | 83.33% (5/6)     | 80.00% (4/5)     | 100.00% (0/0) | 100.00% (1/1)   |
 |----------------------+------------------+------------------+---------------+-----------------|
-| Total                | 91.60% (109/119) | 92.92% (105/113) | 4.26% (2/47)  | 88.89% (16/18)  |
+| Total                | 93.28% (111/119) | 94.69% (107/113) | 4.26% (2/47)  | 88.89% (16/18)  |
 ╰----------------------+------------------+------------------+---------------+-----------------╯

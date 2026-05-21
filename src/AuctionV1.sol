@@ -171,7 +171,7 @@ contract AuctionContractV1 is
         require(auctionData.bidder != msg.sender, "bid repeated");
         // 金额必须够
         require(
-            amount > auctionData.minPrice,
+            amount >= auctionData.minPrice,
             "amount is smaller than minPrice"
         );
         require(
