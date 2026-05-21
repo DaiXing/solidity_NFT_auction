@@ -1,0 +1,806 @@
+No files changed, compilation skipped
+
+Ran 5 tests for test/Auction.t.sol:AuctionTest
+[PASS] testFuzz_SetNumber(uint256) (runs: 256, μ: 481, ~: 378)
+Traces:
+  [4767051] AuctionTest::setUp()
+    ├─ [0] VM::deal(0x000000000000000000000000000000000000Aa01, 2000)
+    │   └─ ← [Return]
+    ├─ [0] VM::deal(0x000000000000000000000000000000000000BB01, 2000)
+    │   └─ ← [Return]
+    ├─ [0] VM::deal(0x000000000000000000000000000000000000bB02, 2000)
+    │   └─ ← [Return]
+    ├─ [0] VM::warp(300000000 [3e8])
+    │   └─ ← [Return]
+    ├─ [0] VM::startPrank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [1461703] → new AuctionContractV1@0xa27f446Fd676E6a4cA0779B94B71E0bCE930224E
+    │   ├─ emit Initialized(version: 18446744073709551615 [1.844e19])
+    │   └─ ← [Return] 6395 bytes of code
+    ├─ [1539326] → new AuctionContractV2@0xc0Cf6669F52a92F3c371015e8EA3403Bd2AFa462
+    │   ├─ emit Initialized(version: 18446744073709551615 [1.844e19])
+    │   └─ ← [Return] 6754 bytes of code
+    ├─ [233540] → new ERC1967Proxy@0xE1096aAABF07011bB96139e9c28575e41c8259c8
+    │   ├─ emit Upgraded(implementation: AuctionContractV1: [0xa27f446Fd676E6a4cA0779B94B71E0bCE930224E])
+    │   ├─ [115354] AuctionContractV1::initialize("deploy V1") [delegatecall]
+    │   │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: 0x000000000000000000000000000000000000Aa01)
+    │   │   ├─ emit Initialized(version: 1)
+    │   │   └─ ← [Return]
+    │   └─ ← [Return] 130 bytes of code
+    ├─ [1001668] → new MySimpleNFT@0x671935387a144A62f1F006D5A61890A22F75E6ab
+    │   └─ ← [Return] 4019 bytes of code
+    ├─ [97721] MySimpleNFT::mintToken("http://aa.com/apple.json")
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x000000000000000000000000000000000000Aa01, tokenId: 101)
+    │   ├─ emit MetadataUpdate(_tokenId: 101)
+    │   └─ ← [Return] 101
+    ├─ [80633] MySimpleNFT::mintToken("http://aa.com/orange.json")
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x000000000000000000000000000000000000Aa01, tokenId: 102)
+    │   ├─ emit MetadataUpdate(_tokenId: 102)
+    │   └─ ← [Return] 102
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return]
+    └─ ← [Return]
+
+  [305] AuctionTest::testFuzz_SetNumber(7055974008 [7.055e9])
+    └─ ← [Return]
+
+[PASS] test_AuctionCreateError() (gas: 194882)
+Logs:
+  
+>> 测试，创建异常。 
+
+Traces:
+  [4767051] AuctionTest::setUp()
+    ├─ [0] VM::deal(0x000000000000000000000000000000000000Aa01, 2000)
+    │   └─ ← [Return]
+    ├─ [0] VM::deal(0x000000000000000000000000000000000000BB01, 2000)
+    │   └─ ← [Return]
+    ├─ [0] VM::deal(0x000000000000000000000000000000000000bB02, 2000)
+    │   └─ ← [Return]
+    ├─ [0] VM::warp(300000000 [3e8])
+    │   └─ ← [Return]
+    ├─ [0] VM::startPrank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [1461703] → new AuctionContractV1@0xa27f446Fd676E6a4cA0779B94B71E0bCE930224E
+    │   ├─ emit Initialized(version: 18446744073709551615 [1.844e19])
+    │   └─ ← [Return] 6395 bytes of code
+    ├─ [1539326] → new AuctionContractV2@0xc0Cf6669F52a92F3c371015e8EA3403Bd2AFa462
+    │   ├─ emit Initialized(version: 18446744073709551615 [1.844e19])
+    │   └─ ← [Return] 6754 bytes of code
+    ├─ [233540] → new ERC1967Proxy@0xE1096aAABF07011bB96139e9c28575e41c8259c8
+    │   ├─ emit Upgraded(implementation: AuctionContractV1: [0xa27f446Fd676E6a4cA0779B94B71E0bCE930224E])
+    │   ├─ [115354] AuctionContractV1::initialize("deploy V1") [delegatecall]
+    │   │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: 0x000000000000000000000000000000000000Aa01)
+    │   │   ├─ emit Initialized(version: 1)
+    │   │   └─ ← [Return]
+    │   └─ ← [Return] 130 bytes of code
+    ├─ [1001668] → new MySimpleNFT@0x671935387a144A62f1F006D5A61890A22F75E6ab
+    │   └─ ← [Return] 4019 bytes of code
+    ├─ [97721] MySimpleNFT::mintToken("http://aa.com/apple.json")
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x000000000000000000000000000000000000Aa01, tokenId: 101)
+    │   ├─ emit MetadataUpdate(_tokenId: 101)
+    │   └─ ← [Return] 101
+    ├─ [80633] MySimpleNFT::mintToken("http://aa.com/orange.json")
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x000000000000000000000000000000000000Aa01, tokenId: 102)
+    │   ├─ emit MetadataUpdate(_tokenId: 102)
+    │   └─ ← [Return] 102
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return]
+    └─ ← [Return]
+
+  [194882] AuctionTest::test_AuctionCreateError()
+    ├─ [0] console::log("\n>> 测试，创建异常。 ") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000bB02)
+    │   └─ ← [Return]
+    ├─ [0] VM::expectRevert(custom error 0xf4844814)
+    │   └─ ← [Return]
+    ├─ [32934] ERC1967Proxy::fallback(MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], 101, 100, 300000001 [3e8], 5)
+    │   ├─ [6065] AuctionContractV1::createAuction(MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], 101, 100, 300000001 [3e8], 5) [delegatecall]
+    │   │   ├─ [2572] MySimpleNFT::ownerOf(101) [staticcall]
+    │   │   │   └─ ← [Return] 0x000000000000000000000000000000000000Aa01
+    │   │   └─ ← [Revert] not token owner
+    │   └─ ← [Revert] not token owner
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [0] VM::expectRevert(custom error 0xf4844814)
+    │   └─ ← [Return]
+    ├─ [32542] ERC1967Proxy::fallback(MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], 9999, 100, 300000001 [3e8], 5)
+    │   ├─ [5667] AuctionContractV1::createAuction(MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], 9999, 100, 300000001 [3e8], 5) [delegatecall]
+    │   │   ├─ [2542] MySimpleNFT::ownerOf(9999) [staticcall]
+    │   │   │   └─ ← [Revert] ERC721NonexistentToken(9999)
+    │   │   └─ ← [Revert] ERC721NonexistentToken(9999)
+    │   └─ ← [Revert] ERC721NonexistentToken(9999)
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [0] VM::expectRevert(custom error 0xf4844814)
+    │   └─ ← [Return]
+    ├─ [32974] ERC1967Proxy::fallback(MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], 101, 100, 299900001 [2.999e8], 5)
+    │   ├─ [6105] AuctionContractV1::createAuction(MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], 101, 100, 299900001 [2.999e8], 5) [delegatecall]
+    │   │   ├─ [2572] MySimpleNFT::ownerOf(101) [staticcall]
+    │   │   │   └─ ← [Return] 0x000000000000000000000000000000000000Aa01
+    │   │   └─ ← [Revert] beginTime is invalid
+    │   └─ ← [Revert] beginTime is invalid
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [0] VM::expectRevert(custom error 0xf4844814)
+    │   └─ ← [Return]
+    ├─ [32993] ERC1967Proxy::fallback(MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], 101, 100, 300000001 [3e8], 3)
+    │   ├─ [6124] AuctionContractV1::createAuction(MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], 101, 100, 300000001 [3e8], 3) [delegatecall]
+    │   │   ├─ [2572] MySimpleNFT::ownerOf(101) [staticcall]
+    │   │   │   └─ ← [Return] 0x000000000000000000000000000000000000Aa01
+    │   │   └─ ← [Revert] periodTime is too short
+    │   └─ ← [Revert] periodTime is too short
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [0] VM::expectRevert(custom error 0xf4844814)
+    │   └─ ← [Return]
+    ├─ [36126] ERC1967Proxy::fallback(MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], 101, 100, 300000001 [3e8], 420)
+    │   ├─ [9245] AuctionContractV1::createAuction(MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], 101, 100, 300000001 [3e8], 420) [delegatecall]
+    │   │   ├─ [2572] MySimpleNFT::ownerOf(101) [staticcall]
+    │   │   │   └─ ← [Return] 0x000000000000000000000000000000000000Aa01
+    │   │   ├─ [2625] MySimpleNFT::getApproved(101) [staticcall]
+    │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000
+    │   │   └─ ← [Revert] token approve not match
+    │   └─ ← [Revert] token approve not match
+    └─ ← [Return]
+
+[PASS] test_BidAuctionAndEnd() (gas: 1122223)
+Logs:
+  
+>> 测试，出价，结束。
+     创建的拍卖 =  2
+     出价 =  2
+     出价 =  3
+     user1 余额 =  2000
+     user2 余额 =  1897
+     拍卖，正常结束了
+     token owner =  0x000000000000000000000000000000000000bB02
+     userOwner balance =  2103
+     AuctionState =  1
+   在出价、结束之后：
+    descB =  deploy V1
+    auctionIdB =  2
+    bidIdB =  3
+
+Traces:
+  [4767051] AuctionTest::setUp()
+    ├─ [0] VM::deal(0x000000000000000000000000000000000000Aa01, 2000)
+    │   └─ ← [Return]
+    ├─ [0] VM::deal(0x000000000000000000000000000000000000BB01, 2000)
+    │   └─ ← [Return]
+    ├─ [0] VM::deal(0x000000000000000000000000000000000000bB02, 2000)
+    │   └─ ← [Return]
+    ├─ [0] VM::warp(300000000 [3e8])
+    │   └─ ← [Return]
+    ├─ [0] VM::startPrank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [1461703] → new AuctionContractV1@0xa27f446Fd676E6a4cA0779B94B71E0bCE930224E
+    │   ├─ emit Initialized(version: 18446744073709551615 [1.844e19])
+    │   └─ ← [Return] 6395 bytes of code
+    ├─ [1539326] → new AuctionContractV2@0xc0Cf6669F52a92F3c371015e8EA3403Bd2AFa462
+    │   ├─ emit Initialized(version: 18446744073709551615 [1.844e19])
+    │   └─ ← [Return] 6754 bytes of code
+    ├─ [233540] → new ERC1967Proxy@0xE1096aAABF07011bB96139e9c28575e41c8259c8
+    │   ├─ emit Upgraded(implementation: AuctionContractV1: [0xa27f446Fd676E6a4cA0779B94B71E0bCE930224E])
+    │   ├─ [115354] AuctionContractV1::initialize("deploy V1") [delegatecall]
+    │   │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: 0x000000000000000000000000000000000000Aa01)
+    │   │   ├─ emit Initialized(version: 1)
+    │   │   └─ ← [Return]
+    │   └─ ← [Return] 130 bytes of code
+    ├─ [1001668] → new MySimpleNFT@0x671935387a144A62f1F006D5A61890A22F75E6ab
+    │   └─ ← [Return] 4019 bytes of code
+    ├─ [97721] MySimpleNFT::mintToken("http://aa.com/apple.json")
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x000000000000000000000000000000000000Aa01, tokenId: 101)
+    │   ├─ emit MetadataUpdate(_tokenId: 101)
+    │   └─ ← [Return] 101
+    ├─ [80633] MySimpleNFT::mintToken("http://aa.com/orange.json")
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x000000000000000000000000000000000000Aa01, tokenId: 102)
+    │   ├─ emit MetadataUpdate(_tokenId: 102)
+    │   └─ ← [Return] 102
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return]
+    └─ ← [Return]
+
+  [1136623] AuctionTest::test_BidAuctionAndEnd()
+    ├─ [0] console::log("\n>> 测试，出价，结束。") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [48335] MySimpleNFT::approve(ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], 101)
+    │   ├─ emit Approval(owner: 0x000000000000000000000000000000000000Aa01, approved: ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], tokenId: 101)
+    │   ├─  storage changes:
+    │   │   @ 0xfe4d1297c5434445a55041cf44037c0799556cc55064da684dc6eed1a5dccabf: 0 → 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8
+    │   └─ ← [Stop]
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [257828] ERC1967Proxy::fallback(MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], 101, 100, 300000060 [3e8], 360)
+    │   ├─ [235757] AuctionContractV1::createAuction(MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], 101, 100, 300000060 [3e8], 360) [delegatecall]
+    │   │   ├─ [2572] MySimpleNFT::ownerOf(101) [staticcall]
+    │   │   │   └─ ← [Return] 0x000000000000000000000000000000000000Aa01
+    │   │   ├─ [2625] MySimpleNFT::getApproved(101) [staticcall]
+    │   │   │   └─ ← [Return] ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8]
+    │   │   ├─ [38619] MySimpleNFT::transferFrom(0x000000000000000000000000000000000000Aa01, ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], 101)
+    │   │   │   ├─ emit Transfer(from: 0x000000000000000000000000000000000000Aa01, to: ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], tokenId: 101)
+    │   │   │   ├─  storage changes:
+    │   │   │   │   @ 0xa41ba26ac28221831fc8b5c6f4cd085e218b100a9a3a73be74e3493318f024a5: 0 → 1
+    │   │   │   │   @ 0xaa26b889c7daf4f74c9d06ac50e171f2d19fe9aafb4e1a2639e22bbfc30f3d33: 2 → 1
+    │   │   │   │   @ 0xfe4d1297c5434445a55041cf44037c0799556cc55064da684dc6eed1a5dccabf: 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8 → 0
+    │   │   │   │   @ 0x0bb0d0c2a399402027fb0eaada47a2c630983f3dd97f193c64f3e30465d04ec3: 43521 → 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8
+    │   │   │   └─ ← [Stop]
+    │   │   ├─ emit AuctionCreate(nftContract: MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], seller: 0x000000000000000000000000000000000000Aa01, tokenId: 101, auctionId: 2, minPrice: 100, beginTime: 300000060 [3e8], endTime: 300000420 [3e8])
+    │   │   ├─  storage changes:
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a8: 0 → 101
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a7: 0 → 0x000000000000000000000000671935387a144a62f1f006d5a61890a22f75e6ab
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ac: 0 → 0x0000000000000000000000000000000000000000000000000000000011e1a33c
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ad: 0 → 0x0000000000000000000000000000000000000000000000000000000011e1a4a4
+    │   │   │   @ 0x62e7ea54c5366e4a0daa5afc9c8bacac48e146534fa7e226db63fed89d0964e3: 0 → 2
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a9: 0 → 2
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2aa: 0 → 43521
+    │   │   │   @ 0: 1 → 2
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ab: 0 → 100
+    │   │   └─ ← [Return] 2
+    │   └─ ← [Return] 2
+    ├─ [2572] MySimpleNFT::ownerOf(101) [staticcall]
+    │   └─ ← [Return] ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8]
+    ├─ [0] console::log("   创建的拍卖 = ", 2) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000BB01)
+    │   └─ ← [Return]
+    ├─ [0] VM::expectRevert(custom error 0xf4844814)
+    │   └─ ← [Return]
+    ├─ [28569] ERC1967Proxy::fallback{value: 102}(2)
+    │   ├─ [2542] AuctionContractV1::bidAuction{value: 102}(2) [delegatecall]
+    │   │   └─ ← [Revert] time not begin
+    │   └─ ← [Revert] time not begin
+    ├─ [0] VM::warp(300000180 [3e8])
+    │   └─ ← [Return]
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000BB01)
+    │   └─ ← [Return]
+    ├─ [0] VM::expectRevert(custom error 0xf4844814)
+    │   └─ ← [Return]
+    ├─ [35063] ERC1967Proxy::fallback{value: 22}(2)
+    │   ├─ [9036] AuctionContractV1::bidAuction{value: 22}(2) [delegatecall]
+    │   │   └─ ← [Revert] amount is smaller than minPrice
+    │   └─ ← [Revert] amount is smaller than minPrice
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000BB01)
+    │   └─ ← [Return]
+    ├─ [106592] ERC1967Proxy::fallback{value: 101}(2)
+    │   ├─ [80578] AuctionContractV1::bidAuction{value: 101}(2) [delegatecall]
+    │   │   ├─ emit AuctionBid(auctionId: 2, bidder: 0x000000000000000000000000000000000000BB01, bidPrice: 101, bidId: 2)
+    │   │   ├─  storage changes:
+    │   │   │   @ 1: 1 → 2
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ae: 0 → 0x0000000000000000000000000000000000000000000000000000000000bb0100
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2b0: 0 → 2
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2af: 0 → 101
+    │   │   └─ ← [Return] 2
+    │   └─ ← [Return] 2
+    ├─ [0] console::log("   出价 = ", 2) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [48389] ERC1967Proxy::fallback(2)
+    │   ├─ [22321] AuctionContractV1::queryAuction(2) [delegatecall]
+    │   │   └─ ← [Return] AuctionData({ nftContract: 0x671935387a144A62f1F006D5A61890A22F75E6ab, tokenId: 101, auctionId: 2, seller: 0x000000000000000000000000000000000000Aa01, minPrice: 100, beginTime: 300000060 [3e8], endTime: 300000420 [3e8], state: 0, bidder: 0x000000000000000000000000000000000000BB01, bidPrice: 101, bidId: 2 })
+    │   └─ ← [Return] AuctionData({ nftContract: 0x671935387a144A62f1F006D5A61890A22F75E6ab, tokenId: 101, auctionId: 2, seller: 0x000000000000000000000000000000000000Aa01, minPrice: 100, beginTime: 300000060 [3e8], endTime: 300000420 [3e8], state: 0, bidder: 0x000000000000000000000000000000000000BB01, bidPrice: 101, bidId: 2 })
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000BB01)
+    │   └─ ← [Return]
+    ├─ [0] VM::expectRevert(custom error 0xf4844814)
+    │   └─ ← [Return]
+    ├─ [32939] ERC1967Proxy::fallback{value: 101}(2)
+    │   ├─ [6912] AuctionContractV1::bidAuction{value: 101}(2) [delegatecall]
+    │   │   └─ ← [Revert] bid repeated
+    │   └─ ← [Revert] bid repeated
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000bB02)
+    │   └─ ← [Return]
+    ├─ [0] VM::expectRevert(custom error 0xf4844814)
+    │   └─ ← [Return]
+    ├─ [35063] ERC1967Proxy::fallback{value: 100}(2)
+    │   ├─ [9036] AuctionContractV1::bidAuction{value: 100}(2) [delegatecall]
+    │   │   └─ ← [Revert] amount is smaller than minPrice
+    │   └─ ← [Revert] amount is smaller than minPrice
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000bB02)
+    │   └─ ← [Return]
+    ├─ [66776] ERC1967Proxy::fallback{value: 103}(2)
+    │   ├─ [40762] AuctionContractV1::bidAuction{value: 103}(2) [delegatecall]
+    │   │   ├─ [0] 0x000000000000000000000000000000000000BB01::fallback{value: 101}()
+    │   │   │   └─ ← [Stop]
+    │   │   ├─ emit AuctionRefund(auctionId: 2, to: 0x000000000000000000000000000000000000BB01, amount: 101, bidId: 2)
+    │   │   ├─ emit AuctionBid(auctionId: 2, bidder: 0x000000000000000000000000000000000000bB02, bidPrice: 103, bidId: 3)
+    │   │   ├─  storage changes:
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ae: 0x0000000000000000000000000000000000000000000000000000000000bb0100 → 0x0000000000000000000000000000000000000000000000000000000000bb0200
+    │   │   │   @ 1: 2 → 3
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2b0: 2 → 3
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2af: 101 → 103
+    │   │   └─ ← [Return] 3
+    │   └─ ← [Return] 3
+    ├─ [0] console::log("   出价 = ", 3) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [48389] ERC1967Proxy::fallback(2)
+    │   ├─ [22321] AuctionContractV1::queryAuction(2) [delegatecall]
+    │   │   └─ ← [Return] AuctionData({ nftContract: 0x671935387a144A62f1F006D5A61890A22F75E6ab, tokenId: 101, auctionId: 2, seller: 0x000000000000000000000000000000000000Aa01, minPrice: 100, beginTime: 300000060 [3e8], endTime: 300000420 [3e8], state: 0, bidder: 0x000000000000000000000000000000000000bB02, bidPrice: 103, bidId: 3 })
+    │   └─ ← [Return] AuctionData({ nftContract: 0x671935387a144A62f1F006D5A61890A22F75E6ab, tokenId: 101, auctionId: 2, seller: 0x000000000000000000000000000000000000Aa01, minPrice: 100, beginTime: 300000060 [3e8], endTime: 300000420 [3e8], state: 0, bidder: 0x000000000000000000000000000000000000bB02, bidPrice: 103, bidId: 3 })
+    ├─ [0] console::log("   user1 余额 = ", 2000) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("   user2 余额 = ", 1897) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [0] VM::expectRevert(custom error 0xf4844814)
+    │   └─ ← [Return]
+    ├─ [30898] ERC1967Proxy::fallback(2)
+    │   ├─ [4871] AuctionContractV1::cancelAuction(2) [delegatecall]
+    │   │   └─ ← [Revert] auction has begun
+    │   └─ ← [Revert] auction has begun
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [0] VM::expectRevert(custom error 0xf4844814)
+    │   └─ ← [Return]
+    ├─ [30936] ERC1967Proxy::fallback(2)
+    │   ├─ [4909] AuctionContractV1::endAuction(2) [delegatecall]
+    │   │   └─ ← [Revert] end time not match
+    │   └─ ← [Revert] end time not match
+    ├─ [0] VM::warp(300001500 [3e8])
+    │   └─ ← [Return]
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [87198] ERC1967Proxy::fallback(2)
+    │   ├─ [70787] AuctionContractV1::endAuction(2) [delegatecall]
+    │   │   ├─ [0] 0x000000000000000000000000000000000000Aa01::fallback{value: 103}()
+    │   │   │   └─ ← [Stop]
+    │   │   ├─ [37356] MySimpleNFT::transferFrom(ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], 0x000000000000000000000000000000000000bB02, 101)
+    │   │   │   ├─ emit Transfer(from: ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], to: 0x000000000000000000000000000000000000bB02, tokenId: 101)
+    │   │   │   ├─  storage changes:
+    │   │   │   │   @ 0x72a0d2c0e55ec751f88b8aec3e76c31832f29c1845dbe1098f323ebe618aa086: 0 → 1
+    │   │   │   │   @ 0xa41ba26ac28221831fc8b5c6f4cd085e218b100a9a3a73be74e3493318f024a5: 1 → 0
+    │   │   │   │   @ 0x0bb0d0c2a399402027fb0eaada47a2c630983f3dd97f193c64f3e30465d04ec3: 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8 → 47874
+    │   │   │   └─ ← [Stop]
+    │   │   ├─ emit AuctionEnd(auctionId: 2, state: 1)
+    │   │   ├─  storage changes:
+    │   │   │   @ 0x62e7ea54c5366e4a0daa5afc9c8bacac48e146534fa7e226db63fed89d0964e3: 2 → 0
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ae: 0x0000000000000000000000000000000000000000000000000000000000bb0200 → 0x0000000000000000000000000000000000000000000000000000000000bb0201
+    │   │   └─ ← [Return]
+    │   └─ ← [Return]
+    ├─ [0] console::log("   拍卖，正常结束了") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [2572] MySimpleNFT::ownerOf(101) [staticcall]
+    │   └─ ← [Return] 0x000000000000000000000000000000000000bB02
+    ├─ [0] console::log("   token owner = ", 0x000000000000000000000000000000000000bB02) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("   userOwner balance = ", 2103) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [48389] ERC1967Proxy::fallback(2)
+    │   ├─ [22321] AuctionContractV1::queryAuction(2) [delegatecall]
+    │   │   └─ ← [Return] AuctionData({ nftContract: 0x671935387a144A62f1F006D5A61890A22F75E6ab, tokenId: 101, auctionId: 2, seller: 0x000000000000000000000000000000000000Aa01, minPrice: 100, beginTime: 300000060 [3e8], endTime: 300000420 [3e8], state: 1, bidder: 0x000000000000000000000000000000000000bB02, bidPrice: 103, bidId: 3 })
+    │   └─ ← [Return] AuctionData({ nftContract: 0x671935387a144A62f1F006D5A61890A22F75E6ab, tokenId: 101, auctionId: 2, seller: 0x000000000000000000000000000000000000Aa01, minPrice: 100, beginTime: 300000060 [3e8], endTime: 300000420 [3e8], state: 1, bidder: 0x000000000000000000000000000000000000bB02, bidPrice: 103, bidId: 3 })
+    ├─ [0] console::log("   AuctionState = ", 1) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [32909] ERC1967Proxy::fallback()
+    │   ├─ [7020] AuctionContractV1::queryDesc() [delegatecall]
+    │   │   └─ ← [Return] "deploy V1", 2, 3
+    │   └─ ← [Return] "deploy V1", 2, 3
+    ├─ [0] console::log(" 在出价、结束之后：") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("  descB = ", "deploy V1") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("  auctionIdB = ", 2) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("  bidIdB = ", 3) [staticcall]
+    │   └─ ← [Stop]
+    └─ ← [Return]
+
+[PASS] test_CancelAuction() (gas: 604072)
+Logs:
+  
+>> 测试，取消。
+    now =  300000000
+    now  =  300003600
+    now2 =  300003600
+    cancel OK 
+    state =  3
+    tokenOwner =  0x000000000000000000000000000000000000Aa01
+
+Traces:
+  [4767051] AuctionTest::setUp()
+    ├─ [0] VM::deal(0x000000000000000000000000000000000000Aa01, 2000)
+    │   └─ ← [Return]
+    ├─ [0] VM::deal(0x000000000000000000000000000000000000BB01, 2000)
+    │   └─ ← [Return]
+    ├─ [0] VM::deal(0x000000000000000000000000000000000000bB02, 2000)
+    │   └─ ← [Return]
+    ├─ [0] VM::warp(300000000 [3e8])
+    │   └─ ← [Return]
+    ├─ [0] VM::startPrank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [1461703] → new AuctionContractV1@0xa27f446Fd676E6a4cA0779B94B71E0bCE930224E
+    │   ├─ emit Initialized(version: 18446744073709551615 [1.844e19])
+    │   └─ ← [Return] 6395 bytes of code
+    ├─ [1539326] → new AuctionContractV2@0xc0Cf6669F52a92F3c371015e8EA3403Bd2AFa462
+    │   ├─ emit Initialized(version: 18446744073709551615 [1.844e19])
+    │   └─ ← [Return] 6754 bytes of code
+    ├─ [233540] → new ERC1967Proxy@0xE1096aAABF07011bB96139e9c28575e41c8259c8
+    │   ├─ emit Upgraded(implementation: AuctionContractV1: [0xa27f446Fd676E6a4cA0779B94B71E0bCE930224E])
+    │   ├─ [115354] AuctionContractV1::initialize("deploy V1") [delegatecall]
+    │   │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: 0x000000000000000000000000000000000000Aa01)
+    │   │   ├─ emit Initialized(version: 1)
+    │   │   └─ ← [Return]
+    │   └─ ← [Return] 130 bytes of code
+    ├─ [1001668] → new MySimpleNFT@0x671935387a144A62f1F006D5A61890A22F75E6ab
+    │   └─ ← [Return] 4019 bytes of code
+    ├─ [97721] MySimpleNFT::mintToken("http://aa.com/apple.json")
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x000000000000000000000000000000000000Aa01, tokenId: 101)
+    │   ├─ emit MetadataUpdate(_tokenId: 101)
+    │   └─ ← [Return] 101
+    ├─ [80633] MySimpleNFT::mintToken("http://aa.com/orange.json")
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x000000000000000000000000000000000000Aa01, tokenId: 102)
+    │   ├─ emit MetadataUpdate(_tokenId: 102)
+    │   └─ ← [Return] 102
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return]
+    └─ ← [Return]
+
+  [618472] AuctionTest::test_CancelAuction()
+    ├─ [0] console::log("\n>> 测试，取消。") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [48335] MySimpleNFT::approve(ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], 101)
+    │   ├─ emit Approval(owner: 0x000000000000000000000000000000000000Aa01, approved: ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], tokenId: 101)
+    │   ├─  storage changes:
+    │   │   @ 0xfe4d1297c5434445a55041cf44037c0799556cc55064da684dc6eed1a5dccabf: 0 → 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8
+    │   └─ ← [Stop]
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [257828] ERC1967Proxy::fallback(MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], 101, 100, 300000060 [3e8], 360)
+    │   ├─ [235757] AuctionContractV1::createAuction(MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], 101, 100, 300000060 [3e8], 360) [delegatecall]
+    │   │   ├─ [2572] MySimpleNFT::ownerOf(101) [staticcall]
+    │   │   │   └─ ← [Return] 0x000000000000000000000000000000000000Aa01
+    │   │   ├─ [2625] MySimpleNFT::getApproved(101) [staticcall]
+    │   │   │   └─ ← [Return] ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8]
+    │   │   ├─ [38619] MySimpleNFT::transferFrom(0x000000000000000000000000000000000000Aa01, ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], 101)
+    │   │   │   ├─ emit Transfer(from: 0x000000000000000000000000000000000000Aa01, to: ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], tokenId: 101)
+    │   │   │   ├─  storage changes:
+    │   │   │   │   @ 0xfe4d1297c5434445a55041cf44037c0799556cc55064da684dc6eed1a5dccabf: 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8 → 0
+    │   │   │   │   @ 0xa41ba26ac28221831fc8b5c6f4cd085e218b100a9a3a73be74e3493318f024a5: 0 → 1
+    │   │   │   │   @ 0xaa26b889c7daf4f74c9d06ac50e171f2d19fe9aafb4e1a2639e22bbfc30f3d33: 2 → 1
+    │   │   │   │   @ 0x0bb0d0c2a399402027fb0eaada47a2c630983f3dd97f193c64f3e30465d04ec3: 43521 → 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8
+    │   │   │   └─ ← [Stop]
+    │   │   ├─ emit AuctionCreate(nftContract: MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], seller: 0x000000000000000000000000000000000000Aa01, tokenId: 101, auctionId: 2, minPrice: 100, beginTime: 300000060 [3e8], endTime: 300000420 [3e8])
+    │   │   ├─  storage changes:
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a7: 0 → 0x000000000000000000000000671935387a144a62f1f006d5a61890a22f75e6ab
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ab: 0 → 100
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a8: 0 → 101
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ad: 0 → 0x0000000000000000000000000000000000000000000000000000000011e1a4a4
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ac: 0 → 0x0000000000000000000000000000000000000000000000000000000011e1a33c
+    │   │   │   @ 0: 1 → 2
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2aa: 0 → 43521
+    │   │   │   @ 0x62e7ea54c5366e4a0daa5afc9c8bacac48e146534fa7e226db63fed89d0964e3: 0 → 2
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a9: 0 → 2
+    │   │   └─ ← [Return] 2
+    │   └─ ← [Return] 2
+    ├─ [2572] MySimpleNFT::ownerOf(101) [staticcall]
+    │   └─ ← [Return] ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8]
+    ├─ [0] console::log("  now = ", 300000000 [3e8]) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000bB02)
+    │   └─ ← [Return]
+    ├─ [0] VM::expectRevert(custom error 0xf4844814)
+    │   └─ ← [Return]
+    ├─ [28690] ERC1967Proxy::fallback(2)
+    │   ├─ [2663] AuctionContractV1::cancelAuction(2) [delegatecall]
+    │   │   └─ ← [Revert] not auction owner
+    │   └─ ← [Revert] not auction owner
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [0] VM::warp(300003600 [3e8])
+    │   └─ ← [Return]
+    ├─ [0] VM::expectRevert(custom error 0xf4844814)
+    │   └─ ← [Return]
+    ├─ [30898] ERC1967Proxy::fallback(2)
+    │   ├─ [4871] AuctionContractV1::cancelAuction(2) [delegatecall]
+    │   │   └─ ← [Revert] auction has begun
+    │   └─ ← [Revert] auction has begun
+    ├─ [0] console::log("  now  = ", 300003600 [3e8]) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("  now2 = ", 300003600 [3e8]) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [0] VM::warp(300000000 [3e8])
+    │   └─ ← [Return]
+    ├─ [77399] ERC1967Proxy::fallback(2)
+    │   ├─ [60988] AuctionContractV1::cancelAuction(2) [delegatecall]
+    │   │   ├─ emit AuctionCancel(auctionId: 2)
+    │   │   ├─ [20256] MySimpleNFT::transferFrom(ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], 0x000000000000000000000000000000000000Aa01, 101)
+    │   │   │   ├─ emit Transfer(from: ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], to: 0x000000000000000000000000000000000000Aa01, tokenId: 101)
+    │   │   │   ├─  storage changes:
+    │   │   │   │   @ 0xa41ba26ac28221831fc8b5c6f4cd085e218b100a9a3a73be74e3493318f024a5: 1 → 0
+    │   │   │   │   @ 0xaa26b889c7daf4f74c9d06ac50e171f2d19fe9aafb4e1a2639e22bbfc30f3d33: 1 → 2
+    │   │   │   │   @ 0x0bb0d0c2a399402027fb0eaada47a2c630983f3dd97f193c64f3e30465d04ec3: 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8 → 43521
+    │   │   │   └─ ← [Stop]
+    │   │   ├─  storage changes:
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ae: 0 → 3
+    │   │   │   @ 0x62e7ea54c5366e4a0daa5afc9c8bacac48e146534fa7e226db63fed89d0964e3: 2 → 0
+    │   │   └─ ← [Return]
+    │   └─ ← [Return]
+    ├─ [0] console::log("  cancel OK ") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [48389] ERC1967Proxy::fallback(2)
+    │   ├─ [22321] AuctionContractV1::queryAuction(2) [delegatecall]
+    │   │   └─ ← [Return] AuctionData({ nftContract: 0x671935387a144A62f1F006D5A61890A22F75E6ab, tokenId: 101, auctionId: 2, seller: 0x000000000000000000000000000000000000Aa01, minPrice: 100, beginTime: 300000060 [3e8], endTime: 300000420 [3e8], state: 3, bidder: 0x0000000000000000000000000000000000000000, bidPrice: 0, bidId: 0 })
+    │   └─ ← [Return] AuctionData({ nftContract: 0x671935387a144A62f1F006D5A61890A22F75E6ab, tokenId: 101, auctionId: 2, seller: 0x000000000000000000000000000000000000Aa01, minPrice: 100, beginTime: 300000060 [3e8], endTime: 300000420 [3e8], state: 3, bidder: 0x0000000000000000000000000000000000000000, bidPrice: 0, bidId: 0 })
+    ├─ [0] console::log("  state = ", 3) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [2572] MySimpleNFT::ownerOf(101) [staticcall]
+    │   └─ ← [Return] 0x000000000000000000000000000000000000Aa01
+    ├─ [0] console::log("  tokenOwner = ", 0x000000000000000000000000000000000000Aa01) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [0] VM::expectRevert(custom error 0xf4844814)
+    │   └─ ← [Return]
+    ├─ [33087] ERC1967Proxy::fallback(2)
+    │   ├─ [7060] AuctionContractV1::cancelAuction(2) [delegatecall]
+    │   │   └─ ← [Revert] state is not Normal
+    │   └─ ← [Revert] state is not Normal
+    └─ ← [Return]
+
+[PASS] test_Upgrade() (gas: 611220)
+Logs:
+  
+>> 测试，升级。
+    create auctionId =  2
+   升级之前：
+    descB =  deploy V1
+    auctionIdB =  2
+    bidIdB =  1
+    AuctionData seller =  0x000000000000000000000000000000000000Aa01
+   升级之前：
+    descC =  to V2
+    auctionIdC =  2
+    bidIdC =  1
+    AuctionData seller =  0x000000000000000000000000000000000000Aa01
+   数据必须相同。
+   使用V2的新方法：
+    counter =  202
+
+Traces:
+  [4767051] AuctionTest::setUp()
+    ├─ [0] VM::deal(0x000000000000000000000000000000000000Aa01, 2000)
+    │   └─ ← [Return]
+    ├─ [0] VM::deal(0x000000000000000000000000000000000000BB01, 2000)
+    │   └─ ← [Return]
+    ├─ [0] VM::deal(0x000000000000000000000000000000000000bB02, 2000)
+    │   └─ ← [Return]
+    ├─ [0] VM::warp(300000000 [3e8])
+    │   └─ ← [Return]
+    ├─ [0] VM::startPrank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [1461703] → new AuctionContractV1@0xa27f446Fd676E6a4cA0779B94B71E0bCE930224E
+    │   ├─ emit Initialized(version: 18446744073709551615 [1.844e19])
+    │   └─ ← [Return] 6395 bytes of code
+    ├─ [1539326] → new AuctionContractV2@0xc0Cf6669F52a92F3c371015e8EA3403Bd2AFa462
+    │   ├─ emit Initialized(version: 18446744073709551615 [1.844e19])
+    │   └─ ← [Return] 6754 bytes of code
+    ├─ [233540] → new ERC1967Proxy@0xE1096aAABF07011bB96139e9c28575e41c8259c8
+    │   ├─ emit Upgraded(implementation: AuctionContractV1: [0xa27f446Fd676E6a4cA0779B94B71E0bCE930224E])
+    │   ├─ [115354] AuctionContractV1::initialize("deploy V1") [delegatecall]
+    │   │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: 0x000000000000000000000000000000000000Aa01)
+    │   │   ├─ emit Initialized(version: 1)
+    │   │   └─ ← [Return]
+    │   └─ ← [Return] 130 bytes of code
+    ├─ [1001668] → new MySimpleNFT@0x671935387a144A62f1F006D5A61890A22F75E6ab
+    │   └─ ← [Return] 4019 bytes of code
+    ├─ [97721] MySimpleNFT::mintToken("http://aa.com/apple.json")
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x000000000000000000000000000000000000Aa01, tokenId: 101)
+    │   ├─ emit MetadataUpdate(_tokenId: 101)
+    │   └─ ← [Return] 101
+    ├─ [80633] MySimpleNFT::mintToken("http://aa.com/orange.json")
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x000000000000000000000000000000000000Aa01, tokenId: 102)
+    │   ├─ emit MetadataUpdate(_tokenId: 102)
+    │   └─ ← [Return] 102
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return]
+    └─ ← [Return]
+
+  [616020] AuctionTest::test_Upgrade()
+    ├─ [0] console::log("\n>> 测试，升级。") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [48335] MySimpleNFT::approve(ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], 101)
+    │   ├─ emit Approval(owner: 0x000000000000000000000000000000000000Aa01, approved: ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], tokenId: 101)
+    │   ├─  storage changes:
+    │   │   @ 0xfe4d1297c5434445a55041cf44037c0799556cc55064da684dc6eed1a5dccabf: 0 → 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8
+    │   └─ ← [Stop]
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [257828] ERC1967Proxy::fallback(MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], 101, 100, 300000060 [3e8], 360)
+    │   ├─ [235757] AuctionContractV1::createAuction(MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], 101, 100, 300000060 [3e8], 360) [delegatecall]
+    │   │   ├─ [2572] MySimpleNFT::ownerOf(101) [staticcall]
+    │   │   │   └─ ← [Return] 0x000000000000000000000000000000000000Aa01
+    │   │   ├─ [2625] MySimpleNFT::getApproved(101) [staticcall]
+    │   │   │   └─ ← [Return] ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8]
+    │   │   ├─ [38619] MySimpleNFT::transferFrom(0x000000000000000000000000000000000000Aa01, ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], 101)
+    │   │   │   ├─ emit Transfer(from: 0x000000000000000000000000000000000000Aa01, to: ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], tokenId: 101)
+    │   │   │   ├─  storage changes:
+    │   │   │   │   @ 0xa41ba26ac28221831fc8b5c6f4cd085e218b100a9a3a73be74e3493318f024a5: 0 → 1
+    │   │   │   │   @ 0xaa26b889c7daf4f74c9d06ac50e171f2d19fe9aafb4e1a2639e22bbfc30f3d33: 2 → 1
+    │   │   │   │   @ 0xfe4d1297c5434445a55041cf44037c0799556cc55064da684dc6eed1a5dccabf: 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8 → 0
+    │   │   │   │   @ 0x0bb0d0c2a399402027fb0eaada47a2c630983f3dd97f193c64f3e30465d04ec3: 43521 → 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8
+    │   │   │   └─ ← [Stop]
+    │   │   ├─ emit AuctionCreate(nftContract: MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], seller: 0x000000000000000000000000000000000000Aa01, tokenId: 101, auctionId: 2, minPrice: 100, beginTime: 300000060 [3e8], endTime: 300000420 [3e8])
+    │   │   ├─  storage changes:
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a8: 0 → 101
+    │   │   │   @ 0x62e7ea54c5366e4a0daa5afc9c8bacac48e146534fa7e226db63fed89d0964e3: 0 → 2
+    │   │   │   @ 0: 1 → 2
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a9: 0 → 2
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ab: 0 → 100
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a7: 0 → 0x000000000000000000000000671935387a144a62f1f006d5a61890a22f75e6ab
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2aa: 0 → 43521
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ac: 0 → 0x0000000000000000000000000000000000000000000000000000000011e1a33c
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ad: 0 → 0x0000000000000000000000000000000000000000000000000000000011e1a4a4
+    │   │   └─ ← [Return] 2
+    │   └─ ← [Return] 2
+    ├─ [2572] MySimpleNFT::ownerOf(101) [staticcall]
+    │   └─ ← [Return] ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8]
+    ├─ [0] console::log("  create auctionId = ", 2) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [11845] ERC1967Proxy::fallback() [staticcall]
+    │   ├─ [7020] AuctionContractV1::queryDesc() [delegatecall]
+    │   │   └─ ← [Return] "deploy V1", 2, 1
+    │   └─ ← [Return] "deploy V1", 2, 1
+    ├─ [0] console::log(" 升级之前：") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("  descB = ", "deploy V1") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("  auctionIdB = ", 2) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("  bidIdB = ", 1) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [27185] ERC1967Proxy::fallback(2) [staticcall]
+    │   ├─ [22321] AuctionContractV1::queryAuction(2) [delegatecall]
+    │   │   └─ ← [Return] AuctionData({ nftContract: 0x671935387a144A62f1F006D5A61890A22F75E6ab, tokenId: 101, auctionId: 2, seller: 0x000000000000000000000000000000000000Aa01, minPrice: 100, beginTime: 300000060 [3e8], endTime: 300000420 [3e8], state: 0, bidder: 0x0000000000000000000000000000000000000000, bidPrice: 0, bidId: 0 })
+    │   └─ ← [Return] AuctionData({ nftContract: 0x671935387a144A62f1F006D5A61890A22F75E6ab, tokenId: 101, auctionId: 2, seller: 0x000000000000000000000000000000000000Aa01, minPrice: 100, beginTime: 300000060 [3e8], endTime: 300000420 [3e8], state: 0, bidder: 0x0000000000000000000000000000000000000000, bidPrice: 0, bidId: 0 })
+    ├─ [0] console::log("  AuctionData seller = ", 0x000000000000000000000000000000000000Aa01) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] VM::prank(0x000000000000000000000000000000000000Aa01)
+    │   └─ ← [Return]
+    ├─ [66269] ERC1967Proxy::fallback(AuctionContractV2: [0xc0Cf6669F52a92F3c371015e8EA3403Bd2AFa462], 0x0b5d67d300000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000005746f205632000000000000000000000000000000000000000000000000000000)
+    │   ├─ [39073] AuctionContractV1::upgradeToAndCall(AuctionContractV2: [0xc0Cf6669F52a92F3c371015e8EA3403Bd2AFa462], 0x0b5d67d300000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000005746f205632000000000000000000000000000000000000000000000000000000) [delegatecall]
+    │   │   ├─ [325] AuctionContractV2::proxiableUUID() [staticcall]
+    │   │   │   └─ ← [Return] 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc
+    │   │   ├─ emit Upgraded(implementation: AuctionContractV2: [0xc0Cf6669F52a92F3c371015e8EA3403Bd2AFa462])
+    │   │   ├─ [27977] AuctionContractV2::upgradeV2("to V2") [delegatecall]
+    │   │   │   ├─  storage changes:
+    │   │   │   │   @ 2: 0x6465706c6f792056310000000000000000000000000000000000000000000012 → 0x746f20563200000000000000000000000000000000000000000000000000000a
+    │   │   │   │   @ 5: 0 → 200
+    │   │   │   └─ ← [Stop]
+    │   │   ├─  storage changes:
+    │   │   │   @ 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc: 0x000000000000000000000000a27f446fd676e6a4ca0779b94b71e0bce930224e → 0x000000000000000000000000c0cf6669f52a92f3c371015e8ea3403bd2afa462
+    │   │   └─ ← [Stop]
+    │   └─ ← [Return]
+    ├─ [11886] ERC1967Proxy::fallback() [staticcall]
+    │   ├─ [7061] AuctionContractV2::queryDesc() [delegatecall]
+    │   │   └─ ← [Return] "to V2", 2, 1
+    │   └─ ← [Return] "to V2", 2, 1
+    ├─ [0] console::log(" 升级之前：") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("  descC = ", "to V2") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("  auctionIdC = ", 2) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("  bidIdC = ", 1) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [27218] ERC1967Proxy::fallback(2) [staticcall]
+    │   ├─ [22354] AuctionContractV2::queryAuction(2) [delegatecall]
+    │   │   └─ ← [Return] AuctionData({ nftContract: 0x671935387a144A62f1F006D5A61890A22F75E6ab, tokenId: 101, auctionId: 2, seller: 0x000000000000000000000000000000000000Aa01, minPrice: 100, beginTime: 300000060 [3e8], endTime: 300000420 [3e8], state: 0, bidder: 0x0000000000000000000000000000000000000000, bidPrice: 0, bidId: 0 })
+    │   └─ ← [Return] AuctionData({ nftContract: 0x671935387a144A62f1F006D5A61890A22F75E6ab, tokenId: 101, auctionId: 2, seller: 0x000000000000000000000000000000000000Aa01, minPrice: 100, beginTime: 300000060 [3e8], endTime: 300000420 [3e8], state: 0, bidder: 0x0000000000000000000000000000000000000000, bidPrice: 0, bidId: 0 })
+    ├─ [0] console::log("  AuctionData seller = ", 0x000000000000000000000000000000000000Aa01) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log(" 数据必须相同。") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log(" 使用V2的新方法：") [staticcall]
+    │   └─ ← [Stop]
+    ├─ [31084] ERC1967Proxy::fallback()
+    │   ├─ [5213] AuctionContractV2::addCounter() [delegatecall]
+    │   │   ├─  storage changes:
+    │   │   │   @ 5: 200 → 201
+    │   │   └─ ← [Return] 201
+    │   └─ ← [Return] 201
+    ├─ [31084] ERC1967Proxy::fallback()
+    │   ├─ [5213] AuctionContractV2::addCounter() [delegatecall]
+    │   │   ├─  storage changes:
+    │   │   │   @ 5: 201 → 202
+    │   │   └─ ← [Return] 202
+    │   └─ ← [Return] 202
+    ├─ [0] console::log("  counter = ", 202) [staticcall]
+    │   └─ ← [Stop]
+    └─ ← [Return]
+
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 10.91ms (20.54ms CPU time)
+
+╭-------------------------------------------------------------------------------------------+-----------------+-------+--------+--------+---------╮
+| lib/openzeppelin-contracts/contracts/proxy/ERC1967/ERC1967Proxy.sol:ERC1967Proxy Contract |                 |       |        |        |         |
++=================================================================================================================================================+
+| Deployment Cost                                                                           | Deployment Size |       |        |        |         |
+|-------------------------------------------------------------------------------------------+-----------------+-------+--------+--------+---------|
+| 233540                                                                                    | 898             |       |        |        |         |
+|-------------------------------------------------------------------------------------------+-----------------+-------+--------+--------+---------|
+|                                                                                           |                 |       |        |        |         |
+|-------------------------------------------------------------------------------------------+-----------------+-------+--------+--------+---------|
+| Function Name                                                                             | Min             | Avg   | Median | Max    | # Calls |
+|-------------------------------------------------------------------------------------------+-----------------+-------+--------+--------+---------|
+| fallback                                                                                  | 11845           | 60551 | 32993  | 257828 | 33      |
+╰-------------------------------------------------------------------------------------------+-----------------+-------+--------+--------+---------╯
+
+╭----------------------------------------------+-----------------+--------+--------+--------+---------╮
+| src/AuctionV1.sol:AuctionContractV1 Contract |                 |        |        |        |         |
++=====================================================================================================+
+| Deployment Cost                              | Deployment Size |        |        |        |         |
+|----------------------------------------------+-----------------+--------+--------+--------+---------|
+| 1461703                                      | 6626            |        |        |        |         |
+|----------------------------------------------+-----------------+--------+--------+--------+---------|
+|                                              |                 |        |        |        |         |
+|----------------------------------------------+-----------------+--------+--------+--------+---------|
+| Function Name                                | Min             | Avg    | Median | Max    | # Calls |
+|----------------------------------------------+-----------------+--------+--------+--------+---------|
+| bidAuction                                   | 2542            | 24811  | 9036   | 80578  | 6       |
+|----------------------------------------------+-----------------+--------+--------+--------+---------|
+| cancelAuction                                | 2663            | 16090  | 4871   | 60988  | 5       |
+|----------------------------------------------+-----------------+--------+--------+--------+---------|
+| createAuction                                | 5667            | 92559  | 7684   | 235757 | 8       |
+|----------------------------------------------+-----------------+--------+--------+--------+---------|
+| endAuction                                   | 4909            | 37848  | 37848  | 70787  | 2       |
+|----------------------------------------------+-----------------+--------+--------+--------+---------|
+| initialize                                   | 115354          | 115354 | 115354 | 115354 | 5       |
+|----------------------------------------------+-----------------+--------+--------+--------+---------|
+| queryAuction                                 | 22321           | 22321  | 22321  | 22321  | 5       |
+|----------------------------------------------+-----------------+--------+--------+--------+---------|
+| queryDesc                                    | 7020            | 7020   | 7020   | 7020   | 2       |
+|----------------------------------------------+-----------------+--------+--------+--------+---------|
+| upgradeToAndCall                             | 39073           | 39073  | 39073  | 39073  | 1       |
+╰----------------------------------------------+-----------------+--------+--------+--------+---------╯
+
+╭----------------------------------------------+-----------------+-------+--------+-------+---------╮
+| src/AuctionV2.sol:AuctionContractV2 Contract |                 |       |        |       |         |
++===================================================================================================+
+| Deployment Cost                              | Deployment Size |       |        |       |         |
+|----------------------------------------------+-----------------+-------+--------+-------+---------|
+| 1539326                                      | 6985            |       |        |       |         |
+|----------------------------------------------+-----------------+-------+--------+-------+---------|
+|                                              |                 |       |        |       |         |
+|----------------------------------------------+-----------------+-------+--------+-------+---------|
+| Function Name                                | Min             | Avg   | Median | Max   | # Calls |
+|----------------------------------------------+-----------------+-------+--------+-------+---------|
+| addCounter                                   | 5213            | 5213  | 5213   | 5213  | 2       |
+|----------------------------------------------+-----------------+-------+--------+-------+---------|
+| proxiableUUID                                | 325             | 325   | 325    | 325   | 1       |
+|----------------------------------------------+-----------------+-------+--------+-------+---------|
+| queryAuction                                 | 22354           | 22354 | 22354  | 22354 | 1       |
+|----------------------------------------------+-----------------+-------+--------+-------+---------|
+| queryDesc                                    | 7061            | 7061  | 7061   | 7061  | 1       |
+|----------------------------------------------+-----------------+-------+--------+-------+---------|
+| upgradeV2                                    | 27977           | 27977 | 27977  | 27977 | 1       |
+╰----------------------------------------------+-----------------+-------+--------+-------+---------╯
+
+╭--------------------------------------+-----------------+-------+--------+-------+---------╮
+| src/NftOnly.sol:MySimpleNFT Contract |                 |       |        |       |         |
++===========================================================================================+
+| Deployment Cost                      | Deployment Size |       |        |       |         |
+|--------------------------------------+-----------------+-------+--------+-------+---------|
+| 1001668                              | 4803            |       |        |       |         |
+|--------------------------------------+-----------------+-------+--------+-------+---------|
+|                                      |                 |       |        |       |         |
+|--------------------------------------+-----------------+-------+--------+-------+---------|
+| Function Name                        | Min             | Avg   | Median | Max   | # Calls |
+|--------------------------------------+-----------------+-------+--------+-------+---------|
+| approve                              | 48335           | 48335 | 48335  | 48335 | 3       |
+|--------------------------------------+-----------------+-------+--------+-------+---------|
+| getApproved                          | 2625            | 2625  | 2625   | 2625  | 4       |
+|--------------------------------------+-----------------+-------+--------+-------+---------|
+| mintToken                            | 80633           | 89177 | 89177  | 97721 | 10      |
+|--------------------------------------+-----------------+-------+--------+-------+---------|
+| ownerOf                              | 2542            | 2569  | 2572   | 2572  | 13      |
+╰--------------------------------------+-----------------+-------+--------+-------+---------╯
+
+
+Ran 1 test suite in 47.33ms (10.91ms CPU time): 5 tests passed, 0 failed, 0 skipped (5 total tests)
