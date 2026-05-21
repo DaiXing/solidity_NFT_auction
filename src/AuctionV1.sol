@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
+import {IAuction, AuctionData, AuctionState} from "./AuctionInterface.sol";
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {
     UUPSUpgradeable
@@ -13,33 +14,34 @@ import {
 } from "lib/openzeppelin-contracts-upgradeable/contracts/access/OwnableUpgradeable.sol";
 
 // 拍卖的状态
-enum AuctionState {
-    Normal, // 正常。 未开始或进行中。
-    Success, // 成功。 token被拍出了
-    Fail, // 失败。 token没有拍出
-    Cancel // 取消了。
-}
+// enum AuctionState {
+//     Normal, // 正常。 未开始或进行中。
+//     Success, // 成功。 token被拍出了
+//     Fail, // 失败。 token没有拍出
+//     Cancel // 取消了。
+// }
 
 // 拍卖的信息
-struct AuctionData {
-    address nftContract; // token合约地址
-    uint256 tokenId; // token
-    uint256 auctionId; // 拍卖
-    address seller; // 卖家
-    uint256 minPrice; // 起拍价
-    uint256 beginTime; // 开始时间
-    uint256 endTime; // 结束时间
-    AuctionState state; // 状态。
-    address bidder; // 出价者。
-    uint256 bidPrice; // 出价的金额。
-    uint256 bidId; // 出价的序号。
-}
+// struct AuctionData {
+//     address nftContract; // token合约地址
+//     uint256 tokenId; // token
+//     uint256 auctionId; // 拍卖
+//     address seller; // 卖家
+//     uint256 minPrice; // 起拍价
+//     uint256 beginTime; // 开始时间
+//     uint256 endTime; // 结束时间
+//     AuctionState state; // 状态。
+//     address bidder; // 出价者。
+//     uint256 bidPrice; // 出价的金额。
+//     uint256 bidId; // 出价的序号。
+// }
 
 // 拍卖合约。 V1
 contract AuctionContractV1 is
-    Initializable,
-    UUPSUpgradeable,
-    OwnableUpgradeable
+    IAuction, // 接口。
+    Initializable, // 初始化函数
+    UUPSUpgradeable, // proxy
+    OwnableUpgradeable // owner
 {
     uint256 _auctionId; // 拍卖的序号
     uint256 _bidId; // 竞拍的序号。
@@ -50,33 +52,33 @@ contract AuctionContractV1 is
     mapping(uint256 => AuctionData) auctionMap;
 
     // 创建。
-    event AuctionCreate(
-        address nftContract, // NFT合约地址
-        address indexed seller, // 卖家
-        uint256 indexed tokenId, // tokenID
-        uint256 indexed auctionId, // 拍卖ID
-        uint256 minPrice, // 起拍价
-        uint256 beginTime, // 开始时间
-        uint256 endTime // 结束时间
-    );
+    // event AuctionCreate(
+    //     address nftContract, // NFT合约地址
+    //     address indexed seller, // 卖家
+    //     uint256 indexed tokenId, // tokenID
+    //     uint256 indexed auctionId, // 拍卖ID
+    //     uint256 minPrice, // 起拍价
+    //     uint256 beginTime, // 开始时间
+    //     uint256 endTime // 结束时间
+    // );
     // 退款。
-    event AuctionRefund(
-        uint256 indexed auctionId, // 拍卖ID
-        address indexed to, // 给谁。
-        uint256 amount, // 退款金额
-        uint256 bidId // 竞拍的序号。
-    );
+    // event AuctionRefund(
+    //     uint256 indexed auctionId, // 拍卖ID
+    //     address indexed to, // 给谁。
+    //     uint256 amount, // 退款金额
+    //     uint256 bidId // 竞拍的序号。
+    // );
     // 竞拍。
-    event AuctionBid(
-        uint256 indexed auctionId, // 拍卖ID
-        address indexed bidder, // 竞拍人。
-        uint256 bidPrice, // 竞拍金额
-        uint256 bidId // 竞拍的序号。
-    );
+    // event AuctionBid(
+    //     uint256 indexed auctionId, // 拍卖ID
+    //     address indexed bidder, // 竞拍人。
+    //     uint256 bidPrice, // 竞拍金额
+    //     uint256 bidId // 竞拍的序号。
+    // );
     // 取消。
-    event AuctionCancel(uint256 indexed auctionId);
+    // event AuctionCancel(uint256 indexed auctionId);
     // 结束。
-    event AuctionEnd(uint256 indexed auctionId, AuctionState state);
+    // event AuctionEnd(uint256 indexed auctionId, AuctionState state);
 
     // --------------------
     constructor() {
@@ -125,7 +127,7 @@ contract AuctionContractV1 is
     // 查询拍卖信息。
     function queryAuction(
         uint256 auctionId
-    ) public returns (AuctionData memory) {
+    ) public view returns (AuctionData memory) {
         return auctionMap[auctionId];
     }
 

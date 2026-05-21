@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import {AuctionContractV1} from "./NftAuctionV1.sol";
+import {AuctionContractV1} from "./AuctionV1.sol";
 
 // 拍卖合约。 V2
 contract AuctionContractV2 is AuctionContractV1 {

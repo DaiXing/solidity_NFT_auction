@@ -4,12 +4,9 @@ pragma solidity ^0.8.13;
 import {Test} from "forge-std/Test.sol";
 import {console} from "forge-std/console.sol";
 // import {Counter} from "../src/Counter.sol";
-import {
-    AuctionContractV1,
-    AuctionData,
-    AuctionState
-} from "../src/NftAuctionV1.sol";
-import {AuctionContractV2} from "../src/NftAuctionV2.sol";
+import {IAuction, AuctionData, AuctionState} from "../src/AuctionV1.sol";
+import {AuctionContractV1} from "../src/AuctionV1.sol";
+import {AuctionContractV2} from "../src/AuctionV2.sol";
 import {MySimpleNFT} from "../src/NftOnly.sol";
 import {
     ERC1967Proxy
@@ -73,7 +70,7 @@ contract AuctionTest is Test {
     function test_AuctionCreateError() public {
         console.log(unicode"\n>> 测试，创建异常。 ");
         // 使用代理合约。
-        AuctionContractV1 auctionContract = AuctionContractV1(addrProxy);
+        IAuction auctionContract = IAuction(addrProxy);
 
         // 错误。不是 token 的 owner
         vm.prank(user2);
@@ -134,7 +131,7 @@ contract AuctionTest is Test {
     // 成功创建1个拍卖。
     function createAuctionForTokenApple() public returns (uint256) {
         // 使用代理合约。
-        AuctionContractV1 logicV1 = AuctionContractV1(addrProxy);
+        IAuction logic = IAuction(addrProxy);
 
         // NFT 授权。
         vm.prank(userOwner);
@@ -142,7 +139,7 @@ contract AuctionTest is Test {
 
         // 创建1个拍卖。
         vm.prank(userOwner);
-        uint256 auctionId = logicV1.createAuction(
+        uint256 auctionId = logic.createAuction(
             addrNft,
             tokenApple,
             100,
@@ -166,7 +163,7 @@ contract AuctionTest is Test {
         console.log(unicode"   创建的拍卖 = ", auctionId);
 
         // 使用代理合约。
-        AuctionContractV1 logicV1 = AuctionContractV1(addrProxy);
+        IAuction logicV1 = IAuction(addrProxy);
 
         // 错误。时间未开始。 time not begin
         vm.prank(user1);
