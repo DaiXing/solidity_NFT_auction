@@ -1,7 +1,7 @@
 No files changed, compilation skipped
 
 Ran 5 tests for test/Auction.t.sol:AuctionTest
-[PASS] testFuzz_SetNumber(uint256) (runs: 256, μ: 481, ~: 378)
+[PASS] testFuzz_SetNumber(uint256) (runs: 256, μ: 478, ~: 342)
 Traces:
   [4767051] AuctionTest::setUp()
     ├─ [0] VM::deal(0x000000000000000000000000000000000000Aa01, 2000)
@@ -41,7 +41,7 @@ Traces:
     │   └─ ← [Return]
     └─ ← [Return]
 
-  [305] AuctionTest::testFuzz_SetNumber(7055974008 [7.055e9])
+  [305] AuctionTest::testFuzz_SetNumber(2312885 [2.312e6])
     └─ ← [Return]
 
 [PASS] test_AuctionCreateError() (gas: 194882)
@@ -223,22 +223,22 @@ Traces:
     │   │   ├─ [38619] MySimpleNFT::transferFrom(0x000000000000000000000000000000000000Aa01, ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], 101)
     │   │   │   ├─ emit Transfer(from: 0x000000000000000000000000000000000000Aa01, to: ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], tokenId: 101)
     │   │   │   ├─  storage changes:
-    │   │   │   │   @ 0xa41ba26ac28221831fc8b5c6f4cd085e218b100a9a3a73be74e3493318f024a5: 0 → 1
-    │   │   │   │   @ 0xaa26b889c7daf4f74c9d06ac50e171f2d19fe9aafb4e1a2639e22bbfc30f3d33: 2 → 1
     │   │   │   │   @ 0xfe4d1297c5434445a55041cf44037c0799556cc55064da684dc6eed1a5dccabf: 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8 → 0
+    │   │   │   │   @ 0xa41ba26ac28221831fc8b5c6f4cd085e218b100a9a3a73be74e3493318f024a5: 0 → 1
     │   │   │   │   @ 0x0bb0d0c2a399402027fb0eaada47a2c630983f3dd97f193c64f3e30465d04ec3: 43521 → 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8
+    │   │   │   │   @ 0xaa26b889c7daf4f74c9d06ac50e171f2d19fe9aafb4e1a2639e22bbfc30f3d33: 2 → 1
     │   │   │   └─ ← [Stop]
     │   │   ├─ emit AuctionCreate(nftContract: MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], seller: 0x000000000000000000000000000000000000Aa01, tokenId: 101, auctionId: 2, minPrice: 100, beginTime: 300000060 [3e8], endTime: 300000420 [3e8])
     │   │   ├─  storage changes:
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2aa: 0 → 43521
+    │   │   │   @ 0x62e7ea54c5366e4a0daa5afc9c8bacac48e146534fa7e226db63fed89d0964e3: 0 → 2
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ab: 0 → 100
+    │   │   │   @ 0: 1 → 2
     │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a8: 0 → 101
-    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a7: 0 → 0x000000000000000000000000671935387a144a62f1f006d5a61890a22f75e6ab
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a9: 0 → 2
     │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ac: 0 → 0x0000000000000000000000000000000000000000000000000000000011e1a33c
     │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ad: 0 → 0x0000000000000000000000000000000000000000000000000000000011e1a4a4
-    │   │   │   @ 0x62e7ea54c5366e4a0daa5afc9c8bacac48e146534fa7e226db63fed89d0964e3: 0 → 2
-    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a9: 0 → 2
-    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2aa: 0 → 43521
-    │   │   │   @ 0: 1 → 2
-    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ab: 0 → 100
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a7: 0 → 0x000000000000000000000000671935387a144a62f1f006d5a61890a22f75e6ab
     │   │   └─ ← [Return] 2
     │   └─ ← [Return] 2
     ├─ [2572] MySimpleNFT::ownerOf(101) [staticcall]
@@ -269,10 +269,10 @@ Traces:
     │   ├─ [80578] AuctionContractV1::bidAuction{value: 101}(2) [delegatecall]
     │   │   ├─ emit AuctionBid(auctionId: 2, bidder: 0x000000000000000000000000000000000000BB01, bidPrice: 101, bidId: 2)
     │   │   ├─  storage changes:
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2af: 0 → 101
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2b0: 0 → 2
     │   │   │   @ 1: 1 → 2
     │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ae: 0 → 0x0000000000000000000000000000000000000000000000000000000000bb0100
-    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2b0: 0 → 2
-    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2af: 0 → 101
     │   │   └─ ← [Return] 2
     │   └─ ← [Return] 2
     ├─ [0] console::log("   出价 = ", 2) [staticcall]
@@ -306,8 +306,8 @@ Traces:
     │   │   ├─ emit AuctionRefund(auctionId: 2, to: 0x000000000000000000000000000000000000BB01, amount: 101, bidId: 2)
     │   │   ├─ emit AuctionBid(auctionId: 2, bidder: 0x000000000000000000000000000000000000bB02, bidPrice: 103, bidId: 3)
     │   │   ├─  storage changes:
-    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ae: 0x0000000000000000000000000000000000000000000000000000000000bb0100 → 0x0000000000000000000000000000000000000000000000000000000000bb0200
     │   │   │   @ 1: 2 → 3
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ae: 0x0000000000000000000000000000000000000000000000000000000000bb0100 → 0x0000000000000000000000000000000000000000000000000000000000bb0200
     │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2b0: 2 → 3
     │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2af: 101 → 103
     │   │   └─ ← [Return] 3
@@ -350,8 +350,8 @@ Traces:
     │   │   │   ├─ emit Transfer(from: ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], to: 0x000000000000000000000000000000000000bB02, tokenId: 101)
     │   │   │   ├─  storage changes:
     │   │   │   │   @ 0x72a0d2c0e55ec751f88b8aec3e76c31832f29c1845dbe1098f323ebe618aa086: 0 → 1
-    │   │   │   │   @ 0xa41ba26ac28221831fc8b5c6f4cd085e218b100a9a3a73be74e3493318f024a5: 1 → 0
     │   │   │   │   @ 0x0bb0d0c2a399402027fb0eaada47a2c630983f3dd97f193c64f3e30465d04ec3: 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8 → 47874
+    │   │   │   │   @ 0xa41ba26ac28221831fc8b5c6f4cd085e218b100a9a3a73be74e3493318f024a5: 1 → 0
     │   │   │   └─ ← [Stop]
     │   │   ├─ emit AuctionEnd(auctionId: 2, state: 1)
     │   │   ├─  storage changes:
@@ -391,9 +391,9 @@ Traces:
 Logs:
   
 >> 测试，取消。
-    now =  300000000
-    now  =  300003600
-    now2 =  300003600
+    time1 =  300000000
+    time1  =  300003600
+    time2  =  300003600
     cancel OK 
     state =  3
     tokenOwner =  0x000000000000000000000000000000000000Aa01
@@ -458,27 +458,27 @@ Traces:
     │   │   ├─ [38619] MySimpleNFT::transferFrom(0x000000000000000000000000000000000000Aa01, ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], 101)
     │   │   │   ├─ emit Transfer(from: 0x000000000000000000000000000000000000Aa01, to: ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], tokenId: 101)
     │   │   │   ├─  storage changes:
-    │   │   │   │   @ 0xfe4d1297c5434445a55041cf44037c0799556cc55064da684dc6eed1a5dccabf: 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8 → 0
     │   │   │   │   @ 0xa41ba26ac28221831fc8b5c6f4cd085e218b100a9a3a73be74e3493318f024a5: 0 → 1
     │   │   │   │   @ 0xaa26b889c7daf4f74c9d06ac50e171f2d19fe9aafb4e1a2639e22bbfc30f3d33: 2 → 1
+    │   │   │   │   @ 0xfe4d1297c5434445a55041cf44037c0799556cc55064da684dc6eed1a5dccabf: 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8 → 0
     │   │   │   │   @ 0x0bb0d0c2a399402027fb0eaada47a2c630983f3dd97f193c64f3e30465d04ec3: 43521 → 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8
     │   │   │   └─ ← [Stop]
     │   │   ├─ emit AuctionCreate(nftContract: MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], seller: 0x000000000000000000000000000000000000Aa01, tokenId: 101, auctionId: 2, minPrice: 100, beginTime: 300000060 [3e8], endTime: 300000420 [3e8])
     │   │   ├─  storage changes:
+    │   │   │   @ 0: 1 → 2
     │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a7: 0 → 0x000000000000000000000000671935387a144a62f1f006d5a61890a22f75e6ab
-    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ab: 0 → 100
     │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a8: 0 → 101
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a9: 0 → 2
     │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ad: 0 → 0x0000000000000000000000000000000000000000000000000000000011e1a4a4
     │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ac: 0 → 0x0000000000000000000000000000000000000000000000000000000011e1a33c
-    │   │   │   @ 0: 1 → 2
     │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2aa: 0 → 43521
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ab: 0 → 100
     │   │   │   @ 0x62e7ea54c5366e4a0daa5afc9c8bacac48e146534fa7e226db63fed89d0964e3: 0 → 2
-    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a9: 0 → 2
     │   │   └─ ← [Return] 2
     │   └─ ← [Return] 2
     ├─ [2572] MySimpleNFT::ownerOf(101) [staticcall]
     │   └─ ← [Return] ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8]
-    ├─ [0] console::log("  now = ", 300000000 [3e8]) [staticcall]
+    ├─ [0] console::log("  time1 = ", 300000000 [3e8]) [staticcall]
     │   └─ ← [Stop]
     ├─ [0] VM::prank(0x000000000000000000000000000000000000bB02)
     │   └─ ← [Return]
@@ -498,9 +498,9 @@ Traces:
     │   ├─ [4871] AuctionContractV1::cancelAuction(2) [delegatecall]
     │   │   └─ ← [Revert] auction has begun
     │   └─ ← [Revert] auction has begun
-    ├─ [0] console::log("  now  = ", 300003600 [3e8]) [staticcall]
+    ├─ [0] console::log("  time1  = ", 300003600 [3e8]) [staticcall]
     │   └─ ← [Stop]
-    ├─ [0] console::log("  now2 = ", 300003600 [3e8]) [staticcall]
+    ├─ [0] console::log("  time2  = ", 300003600 [3e8]) [staticcall]
     │   └─ ← [Stop]
     ├─ [0] VM::prank(0x000000000000000000000000000000000000Aa01)
     │   └─ ← [Return]
@@ -512,8 +512,8 @@ Traces:
     │   │   ├─ [20256] MySimpleNFT::transferFrom(ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], 0x000000000000000000000000000000000000Aa01, 101)
     │   │   │   ├─ emit Transfer(from: ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], to: 0x000000000000000000000000000000000000Aa01, tokenId: 101)
     │   │   │   ├─  storage changes:
-    │   │   │   │   @ 0xa41ba26ac28221831fc8b5c6f4cd085e218b100a9a3a73be74e3493318f024a5: 1 → 0
     │   │   │   │   @ 0xaa26b889c7daf4f74c9d06ac50e171f2d19fe9aafb4e1a2639e22bbfc30f3d33: 1 → 2
+    │   │   │   │   @ 0xa41ba26ac28221831fc8b5c6f4cd085e218b100a9a3a73be74e3493318f024a5: 1 → 0
     │   │   │   │   @ 0x0bb0d0c2a399402027fb0eaada47a2c630983f3dd97f193c64f3e30465d04ec3: 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8 → 43521
     │   │   │   └─ ← [Stop]
     │   │   ├─  storage changes:
@@ -622,22 +622,22 @@ Traces:
     │   │   ├─ [38619] MySimpleNFT::transferFrom(0x000000000000000000000000000000000000Aa01, ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], 101)
     │   │   │   ├─ emit Transfer(from: 0x000000000000000000000000000000000000Aa01, to: ERC1967Proxy: [0xE1096aAABF07011bB96139e9c28575e41c8259c8], tokenId: 101)
     │   │   │   ├─  storage changes:
+    │   │   │   │   @ 0xfe4d1297c5434445a55041cf44037c0799556cc55064da684dc6eed1a5dccabf: 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8 → 0
     │   │   │   │   @ 0xa41ba26ac28221831fc8b5c6f4cd085e218b100a9a3a73be74e3493318f024a5: 0 → 1
     │   │   │   │   @ 0xaa26b889c7daf4f74c9d06ac50e171f2d19fe9aafb4e1a2639e22bbfc30f3d33: 2 → 1
-    │   │   │   │   @ 0xfe4d1297c5434445a55041cf44037c0799556cc55064da684dc6eed1a5dccabf: 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8 → 0
     │   │   │   │   @ 0x0bb0d0c2a399402027fb0eaada47a2c630983f3dd97f193c64f3e30465d04ec3: 43521 → 0x000000000000000000000000e1096aaabf07011bb96139e9c28575e41c8259c8
     │   │   │   └─ ← [Stop]
     │   │   ├─ emit AuctionCreate(nftContract: MySimpleNFT: [0x671935387a144A62f1F006D5A61890A22F75E6ab], seller: 0x000000000000000000000000000000000000Aa01, tokenId: 101, auctionId: 2, minPrice: 100, beginTime: 300000060 [3e8], endTime: 300000420 [3e8])
     │   │   ├─  storage changes:
-    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a8: 0 → 101
-    │   │   │   @ 0x62e7ea54c5366e4a0daa5afc9c8bacac48e146534fa7e226db63fed89d0964e3: 0 → 2
-    │   │   │   @ 0: 1 → 2
-    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a9: 0 → 2
-    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ab: 0 → 100
-    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a7: 0 → 0x000000000000000000000000671935387a144a62f1f006d5a61890a22f75e6ab
     │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2aa: 0 → 43521
     │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ac: 0 → 0x0000000000000000000000000000000000000000000000000000000011e1a33c
     │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ad: 0 → 0x0000000000000000000000000000000000000000000000000000000011e1a4a4
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a8: 0 → 101
+    │   │   │   @ 0x62e7ea54c5366e4a0daa5afc9c8bacac48e146534fa7e226db63fed89d0964e3: 0 → 2
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a7: 0 → 0x000000000000000000000000671935387a144a62f1f006d5a61890a22f75e6ab
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2ab: 0 → 100
+    │   │   │   @ 0x91da3fd0782e51c6b3986e9e672fd566868e71f3dbc2d6c2cd6fbb3e361af2a9: 0 → 2
+    │   │   │   @ 0: 1 → 2
     │   │   └─ ← [Return] 2
     │   └─ ← [Return] 2
     ├─ [2572] MySimpleNFT::ownerOf(101) [staticcall]
@@ -716,7 +716,7 @@ Traces:
     │   └─ ← [Stop]
     └─ ← [Return]
 
-Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 10.91ms (20.54ms CPU time)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 5.60ms (13.08ms CPU time)
 
 ╭-------------------------------------------------------------------------------------------+-----------------+-------+--------+--------+---------╮
 | lib/openzeppelin-contracts/contracts/proxy/ERC1967/ERC1967Proxy.sol:ERC1967Proxy Contract |                 |       |        |        |         |
@@ -803,4 +803,4 @@ Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 10.91ms (20.54ms CP
 ╰--------------------------------------+-----------------+-------+--------+-------+---------╯
 
 
-Ran 1 test suite in 47.33ms (10.91ms CPU time): 5 tests passed, 0 failed, 0 skipped (5 total tests)
+Ran 1 test suite in 37.57ms (5.60ms CPU time): 5 tests passed, 0 failed, 0 skipped (5 total tests)

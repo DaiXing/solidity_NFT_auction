@@ -282,9 +282,9 @@ contract AuctionTest is Test {
         IAuction logic = IAuction(addrProxy);
 
         // 前面取值也不起作用。后面一直都当前值。
-        uint256 now = block.timestamp;
-        uint256 now2 = now;
-        console.log("  now = ", now);
+        uint256 time1 = block.timestamp;
+        uint256 time2 = time1;
+        console.log("  time1 = ", time1);
 
         // 只有创建者，才能取消。  not auction owner
         vm.prank(user2);
@@ -297,8 +297,8 @@ contract AuctionTest is Test {
         vm.expectRevert();
         logic.cancelAuction(auctionId);
 
-        console.log("  now  = ", now);
-        console.log("  now2 = ", now2);
+        console.log("  time1  = ", time1);
+        console.log("  time2  = ", time2);
 
         // 正常取消。
         vm.prank(userOwner);

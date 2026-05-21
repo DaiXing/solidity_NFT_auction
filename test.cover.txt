@@ -1,12 +1,6 @@
 Compiling 61 files with Solc 0.8.33
-Solc 0.8.33 finished in 3.35s
-Compiler run successful with warnings:
-Warning (2319): This declaration shadows a builtin symbol.
-   --> test/Auction.t.sol:285:9:
-    |
-285 |         uint256 now = block.timestamp;
-    |         ^^^^^^^^^^^
-
+Solc 0.8.33 finished in 3.30s
+Compiler run successful!
 Analysing contracts...
 Running tests...
 
@@ -16,14 +10,14 @@ Ran 5 tests for test/Auction.t.sol:AuctionTest
 [PASS] test_BidAuctionAndEnd() (gas: 536816)
 [PASS] test_CancelAuction() (gas: 325081)
 [PASS] test_Upgrade() (gas: 395169)
-Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 5.45ms (8.79ms CPU time)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 5.06ms (8.59ms CPU time)
 
-Ran 1 test suite in 251.58ms (5.45ms CPU time): 5 tests passed, 0 failed, 0 skipped (5 total tests)
+Ran 1 test suite in 244.03ms (5.06ms CPU time): 5 tests passed, 0 failed, 0 skipped (5 total tests)
 
 ╭----------------------+------------------+------------------+---------------+-----------------╮
 | File                 | % Lines          | % Statements     | % Branches    | % Funcs         |
 +==============================================================================================+
-| script/Counter.s.sol | 0.00% (0/4)      | 0.00% (0/2)      | 100.00% (0/0) | 0.00% (0/2)     |
+| script/Auction.s.sol | 0.00% (0/4)      | 0.00% (0/2)      | 100.00% (0/0) | 0.00% (0/2)     |
 |----------------------+------------------+------------------+---------------+-----------------|
 | src/AuctionV1.sol    | 95.15% (98/103)  | 95.10% (97/102)  | 4.26% (2/47)  | 100.00% (13/13) |
 |----------------------+------------------+------------------+---------------+-----------------|
