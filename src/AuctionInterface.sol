@@ -32,8 +32,13 @@ interface IAuction {
     // 结束。
     event AuctionEnd(uint256 indexed auctionId, AuctionState state);
 
-    // 初始化。 代理合约需要这个函数，设置字段等。
-    function initialize() external;
+    // 初始化。 代理合约需要这个函数，设置字段等。 只能初始化一次。
+    function initialize(string memory desc) external;
+
+    // 查描述。
+    function queryDesc()
+        external
+        returns (string memory desc, uint256 auctionId, uint256 bidId);
 
     // 查询拍卖信息。
     function queryAuction(

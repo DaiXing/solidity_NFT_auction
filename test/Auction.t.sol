@@ -51,7 +51,10 @@ contract AuctionTest is Test {
         addrAuctionV2 = address(auctionV2);
 
         // 初始化。
-        bytes memory funcData = abi.encodeWithSignature("initialize()");
+        bytes memory funcData = abi.encodeWithSignature(
+            "initialize(string)",
+            "deploy V1"
+        );
 
         // 配置代理。
         proxy = new ERC1967Proxy(addrAuctionV1, funcData);
@@ -155,9 +158,9 @@ contract AuctionTest is Test {
         return auctionId;
     }
 
-    // 出价。
-    function test_BidAuction() public {
-        console.log(unicode"\n>> 测试，出价。");
+    // 出价。结束。
+    function test_BidAuctionAndEnd() public {
+        console.log(unicode"\n>> 测试，出价，结束。");
 
         uint256 auctionId = createAuctionForTokenApple();
         console.log(unicode"   创建的拍卖 = ", auctionId);
@@ -261,6 +264,14 @@ contract AuctionTest is Test {
             auctionC.state == AuctionState.Success,
             "AuctionState not match"
         );
+
+        // 查描述。
+        (string memory descB, uint256 auctionIdB, uint256 bidIdB) = logicV1
+            .queryDesc();
+        console.log(unicode" 在出价、结束之后：");
+        console.log("  descB = ", descB);
+        console.log("  auctionIdB = ", auctionIdB);
+        console.log("  bidIdB = ", bidIdB);
     }
 
     // 取消。
@@ -314,26 +325,62 @@ contract AuctionTest is Test {
     // 升级。
     function test_Upgrade() public {
         console.log(unicode"\n>> 测试，升级。");
-        // 使用代理合约。
+        // V1
         AuctionContractV1 logicV1 = AuctionContractV1(addrProxy);
 
-        // NFT 授权。
-        vm.prank(userOwner);
-        nft.approve(addrProxy, tokenApple);
+        // 创建拍卖。
+        uint256 auctionId = createAuctionForTokenApple();
+        console.log("  create auctionId = ", auctionId);
 
-        // V1 创建1个拍卖。
-        vm.prank(userOwner);
-        uint256 auctionId = logicV1.createAuction(
-            addrNft,
-            tokenApple,
-            100,
-            block.timestamp + 1,
-            6 minutes
+        // 查描述。
+        (string memory descB, uint256 auctionIdB, uint256 bidIdB) = logicV1
+            .queryDesc();
+        console.log(unicode" 升级之前：");
+        console.log("  descB = ", descB);
+        console.log("  auctionIdB = ", auctionIdB);
+        console.log("  bidIdB = ", bidIdB);
+
+        // 查拍卖。
+        AuctionData memory auctionBefore = logicV1.queryAuction(auctionId);
+        console.log("  AuctionData seller = ", auctionBefore.seller);
+        require(auctionBefore.seller > address(0), "seller invalid");
+
+        // 升级。
+        vm.prank(userOwner); // 必须是owner
+        bytes memory funcData = abi.encodeWithSignature(
+            "upgradeV2(string)",
+            "to V2"
         );
-        console.log(unicode"  V1 创建的拍卖 = ", auctionId);
+        logicV1.upgradeToAndCall(addrAuctionV2, funcData);
 
-        // vm.prank(user1);
-        // logicV1.bidAuction{value: 102}(auctionId);
+        // 查描述。
+        (string memory descC, uint256 auctionIdC, uint256 bidIdC) = logicV1
+            .queryDesc();
+        console.log(unicode" 升级之前：");
+        console.log("  descC = ", descC);
+        console.log("  auctionIdC = ", auctionIdC);
+        console.log("  bidIdC = ", bidIdC);
+
+        // 查拍卖。
+        AuctionData memory auctionAfter = logicV1.queryAuction(auctionId);
+        console.log("  AuctionData seller = ", auctionAfter.seller);
+        require(auctionAfter.seller > address(0), "seller invalid");
+
+        // 数据，相同。
+        console.log(unicode" 数据必须相同。");
+        require(
+            auctionAfter.seller == auctionBefore.seller,
+            "seller not match"
+        );
+        require(auctionIdB == auctionIdC, "auctionId not match");
+
+        // 使用V2的新方法。
+        console.log(unicode" 使用V2的新方法：");
+        AuctionContractV2 logicV2 = AuctionContractV2(addrProxy);
+        logicV2.addCounter();
+        uint256 counter = logicV2.addCounter();
+        console.log("  counter = ", counter);
+        require(counter == 202, "  V2 counter not match");
     }
 
     function testFuzz_SetNumber(uint256 x) public {}

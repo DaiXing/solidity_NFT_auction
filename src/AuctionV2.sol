@@ -13,4 +13,10 @@ contract AuctionContractV2 is AuctionContractV1 {
         _counter++;
         return _counter;
     }
+
+    // 新方法。
+    function upgradeV2(string memory desc) public {
+        _desc = desc;
+        _counter = 200;
+    }
 }

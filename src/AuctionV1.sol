@@ -22,6 +22,7 @@ contract AuctionContractV1 is
 {
     uint256 _auctionId; // 拍卖的序号
     uint256 _bidId; // 竞拍的序号。
+    string _desc; // 描述。
 
     // key1=NFT合约地址  key2=tokenID value=auctionID
     mapping(address => mapping(uint256 => uint256)) nftTokenAuctionMap;
@@ -34,12 +35,13 @@ contract AuctionContractV1 is
     }
 
     // 初始化。 代理合约需要这个函数，设置字段等。
-    function initialize() public initializer {
+    function initialize(string memory desc) public initializer {
         // 调用者为owner。
         __Ownable_init(msg.sender);
         // 初始化数据。
         _auctionId = 1;
         _bidId = 1;
+        _desc = desc;
     }
 
     // 授权升级。 只有owner才能升级。
@@ -70,6 +72,15 @@ contract AuctionContractV1 is
         require(auctionId > 0, "auctionId is invalid");
         AuctionData storage auctionData = auctionMap[auctionId];
         require(auctionData.seller == msg.sender, "not auction owner");
+    }
+
+    // 查描述。
+    function queryDesc()
+        public
+        view
+        returns (string memory desc, uint256 auctionId, uint256 bidId)
+    {
+        return (_desc, _auctionId, _bidId);
     }
 
     // 查询拍卖信息。
