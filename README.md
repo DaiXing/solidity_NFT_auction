@@ -22,4 +22,20 @@ NFT MySimpleNFT
 
 单测覆盖率 test.cover.txt 
 
-##
+## 部署
+
+环境变量，配置：
+
+export ETH_PRIVATE_KEY=xxx
+
+export ETH_RPC_URL=http://127.0.0.1:8545
+
+部署到网络：
+
+forge script script/Auction.s.sol --rpc-url $ETH_RPC_URL --broadcast
+
+
+
+
+
+
