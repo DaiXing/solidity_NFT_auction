@@ -1,16 +1,16 @@
-## 
+# NFT 拍卖 
 
-## NFT 拍卖 
+## 合约
 
 拍卖接口 IAuction
 
-拍卖V1 AuctionContractV1
+拍卖合约V1 AuctionContractV1
 
-拍卖V2 AuctionContractV2
+拍卖合约V2 AuctionContractV2
 
-代理  ERC1967Proxy
+代理合约  ERC1967Proxy
 
-NFT MySimpleNFT
+NFT合约 MySimpleNFT
 
 ## 单测
 
