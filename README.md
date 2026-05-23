@@ -34,7 +34,7 @@ export ETH_RPC_URL=http://127.0.0.1:8545
 
 forge script script/Auction.s.sol --rpc-url $ETH_RPC_URL --broadcast
 
-
+forge script script/MyNft.s.sol --rpc-url $ETH_RPC_URL --broadcast
 
 
 

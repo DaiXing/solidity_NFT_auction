@@ -13,7 +13,7 @@ contract AuctionScript is Script {
 
     function run() public {
         string memory privateKeyStr = vm.envString("ETH_PRIVATE_KEY");
-        console.log("privateKeyStr = ", privateKeyStr);
+        // console.log("privateKeyStr = ", privateKeyStr);
         uint256 privateKeyInt = vm.parseUint(privateKeyStr);
 
         vm.startBroadcast(privateKeyInt);
