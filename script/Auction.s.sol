@@ -12,6 +12,7 @@ contract AuctionScript is Script {
     function setUp() public {}
 
     function run() public {
+        console.log(unicode"开始部署 Auction");
         string memory privateKeyStr = vm.envString("ETH_PRIVATE_KEY");
         // console.log("privateKeyStr = ", privateKeyStr);
         uint256 privateKeyInt = vm.parseUint(privateKeyStr);
@@ -30,6 +31,7 @@ contract AuctionScript is Script {
 
         // 配置代理。
         ERC1967Proxy proxy = new ERC1967Proxy(addrAuctionV1, funcData);
+        console.log("proxy addr ", address(proxy));
 
         vm.stopBroadcast();
     }
