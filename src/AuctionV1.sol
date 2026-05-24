@@ -104,10 +104,14 @@ contract AuctionContractV1 is
         require(beginTime >= block.timestamp, "beginTime is invalid");
         require(periodTime > 2 minutes, "periodTime is too short");
 
-        // 检查授权。
+        // 检查授权。 单个授权、全局授权。
         IERC721 nft = IERC721(nftContract);
         address tokenAppr = nft.getApproved(tokenId);
-        require(tokenAppr == address(this), "token approve not match");
+        bool isApprovedForAll = nft.isApprovedForAll(seller, address(this));
+        require(
+            tokenAppr == address(this) || isApprovedForAll,
+            "token approve not match"
+        );
 
         // 映射。
         mapping(uint256 => uint256)
