@@ -21,8 +21,8 @@ contract AuctionContractV1 is
     OwnableUpgradeable // owner
 {
     uint256 _auctionId; // 拍卖的序号
-    uint256 _bidId; // 竞拍的序号。
-    string _desc; // 描述。
+    uint256 _bidId; // 出价的序号。 【不是必须的】
+    string _desc; // 描述。 【不是必须的】
 
     // key1=NFT合约地址  key2=tokenID value=auctionID
     mapping(address => mapping(uint256 => uint256)) nftTokenAuctionMap;
@@ -106,6 +106,7 @@ contract AuctionContractV1 is
 
         // 检查授权。 单个授权、全局授权。
         IERC721 nft = IERC721(nftContract);
+        // 【可以省略。后面transferFrom，有检查】
         address tokenAppr = nft.getApproved(tokenId);
         bool isApprovedForAll = nft.isApprovedForAll(seller, address(this));
         require(
@@ -234,6 +235,8 @@ contract AuctionContractV1 is
 
         // 取消了。清除。
         delete nftTokenAuctionMap[nftContract][tokenId];
+        // 【可选】取消的，可以丢弃。
+        // delete auctionMap[auctionId];
 
         // 事件。
         emit AuctionCancel(auctionId);
@@ -243,7 +246,8 @@ contract AuctionContractV1 is
     }
 
     // 结束。
-    function endAuction(uint256 auctionId) public needAuctionOwner(auctionId) {
+    // 不需要owner。任何人都能结束。
+    function endAuction(uint256 auctionId) public {
         AuctionData storage auctionData = auctionMap[auctionId];
         // 时间完结，才能结束。
         require(auctionData.endTime < block.timestamp, "end time not match");
@@ -261,6 +265,8 @@ contract AuctionContractV1 is
 
         // 这个token拍卖结束了。
         delete nftTokenAuctionMap[nftContract][tokenId];
+        // 正常结束的，最好留个记录。
+        // delete auctionMap[auctionId]; //
 
         // 有人出价。
         if (auctionData.bidder > address(0) && auctionData.bidPrice > 0) {
