@@ -8,6 +8,7 @@
 
 结束拍卖。如果有人出价，则成功，NFT物品给出价者，金钱给卖家；否则，失败。
 
+## 结构
 
 合约： https://github.com/DaiXing/solidity_NFT_auction
 
