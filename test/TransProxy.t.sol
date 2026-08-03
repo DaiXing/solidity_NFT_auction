@@ -16,7 +16,7 @@ import {
     ERC1967Utils
 } from "lib/openzeppelin-contracts/contracts/proxy/ERC1967/ERC1967Utils.sol";
 
-// 透明代理。
+//  透明代理。
 contract TransProxyTest is Test {
     TransLogicV1 logicV1; // 逻辑合约
 
