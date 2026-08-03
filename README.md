@@ -1,5 +1,15 @@
 # NFT 拍卖 
 
+拍卖平台，拍卖不同的NFT。
+
+创建拍卖。设置NFT物品，时间范围，起拍价等。
+
+参与拍卖。多人出价，价高者优先。
+
+结束拍卖。如果有人出价，则成功，NFT物品给出价者，金钱给卖家；否则，失败。
+
+## 结构
+
 合约： https://github.com/DaiXing/solidity_NFT_auction
 
 后台： https://github.com/DaiXing/go_NFT_auction
